@@ -1,0 +1,17 @@
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/InventoryApi
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/appsettings.Development.json
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/appsettings.json
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/aws-lambda-tools-defaults.json
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/InventoryApi.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/InventoryApi.deps.json
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/InventoryApi.runtimeconfig.json
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/InventoryApi.pdb
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/Amazon.Lambda.APIGatewayEvents.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/Amazon.Lambda.ApplicationLoadBalancerEvents.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/Amazon.Lambda.AspNetCoreServer.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/Amazon.Lambda.Core.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/Amazon.Lambda.Logging.AspNetCore.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/Amazon.Lambda.Serialization.SystemTextJson.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/AWSSDK.Core.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/AWSSDK.DynamoDBv2.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/AWSSDK.Extensions.NETCore.Setup.dll
