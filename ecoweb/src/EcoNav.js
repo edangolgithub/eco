@@ -32,7 +32,7 @@ export class EcoNav extends Component {
                     <Form inline>
                         <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                         <Button variant="outline-light">Search</Button>
-                       <span style={{ padding:"10px"}}><AmplifySignOut  /> </span> 
+                       <span style={{ marginLeft:"10px",height:"40px"}}><AmplifySignOut  /> </span> 
                     </Form>
                 </Navbar>
 
