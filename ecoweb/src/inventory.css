@@ -1,0 +1,15 @@
+.binline
+{
+    display:inline;
+}
+.react-bootstrap-table
+{
+    overflow: auto;
+    
+}
+.react-bootstrap-table th
+{
+    width:120px;
+    
+   
+}

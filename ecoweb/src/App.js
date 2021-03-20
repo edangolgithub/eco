@@ -1,10 +1,10 @@
-//import {Apple} from './Cog.js'
-
+import Menu from './Menu'
+import './inventory.css'
 
 function App() {
   return (
     <div className="App">
-   
+      <Menu />
     </div>
   );
 }

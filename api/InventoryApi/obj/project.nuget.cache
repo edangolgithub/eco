@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "63921uBIfiUOXUftkYxyBPtvue6ineK4Ml7lsL+lR0yxsijN5h0vMcrAoJie7GkjaCvXPXsTpFJoJkVntJFHjA==",
+  "dgSpecHash": "PJjVemo+x5TJaCxMXHxIoqx4EMNfEHrERIC2jHCYYchhr+Mz04fgNpu/P+5r1kuCvU6eVNzuqFLLWVmJKh03mA==",
   "success": true,
   "projectFilePath": "/home/ec2-user/eco/api/InventoryApi/InventoryApi.csproj",
   "expectedPackageFiles": [

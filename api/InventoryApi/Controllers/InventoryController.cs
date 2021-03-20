@@ -22,6 +22,13 @@ namespace InventoryApi.Controllers
               
             return  data.OrderByDescending(a=>a.PurchasedDate);
         }
+        [Route("site/{site}", Name="getById")]
+         public async Task<IEnumerable<Inventory>> Get(string site)
+        {
+            var data= await _repository.GetAllInventorysByCategory(site);
+              
+            return  data.OrderByDescending(a=>a.PurchasedDate);
+        }
 
         [HttpPost]
         public async Task Post([FromBody]Inventory model)
