@@ -11,6 +11,8 @@
   "dependencies": {
     "amazon-cognito-identity-js": "^4.6.0",
     "aws-sdk": "^2.867.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^1.7.3",
+    "serverless-webpack": "^5.4.0",
+    "webpack": "^5.27.1"
   }
 }

@@ -1,30 +1,26 @@
 import React, { Component } from 'react';
-import FormErrors from "../FormErrors";
-import Validate from "../utility/FormValidation";
-import { Auth } from "aws-amplify";
+import FormErrors from "../../FormErrors";
+import Validate from "../FormValidation";
 
-class Register extends Component {
+
+class LogIn extends Component {
   state = {
     username: "",
-    email: "",
     password: "",
-    confirmpassword: "",
     errors: {
       cognito: null,
-      blankfield: false,
-      passwordmatch: false
+      blankfield: false
     }
-  }
+  };
 
   clearErrorState = () => {
     this.setState({
       errors: {
         cognito: null,
-        blankfield: false,
-        passwordmatch: false
+        blankfield: false
       }
     });
-  }
+  };
 
   handleSubmit = async event => {
     event.preventDefault();
@@ -39,41 +35,37 @@ class Register extends Component {
     }
 
     // AWS Cognito integration here
-    const { username, email, password } = this.state;
-    try {
-      const signUpResponse = await Auth.signUp({
-        username,
-        password,
-        attributes: {
-          email: email
-        }
-      });
-      this.props.history.push("/welcome");
-      console.log(signUpResponse);
-    } catch (error) {
-      let err = null;
-      !error.message ? err = { "message": error } : err = error;
-      this.setState({
-        errors: {
-          ...this.state.errors,
-          cognito: err
-        }
-      });
-    }
-  }
+
+    // try {
+    //   const user = await Auth.signIn(this.state.username, this.state.password);
+    //   console.log(user);
+    //   this.props.auth.setAuthStatus(true);
+    //   this.props.auth.setUser(user);
+    //   this.props.history.push("/");
+    // }catch(error) {
+    //   let err = null;
+    //   !error.message ? err = { "message": error } : err = error;
+    //   this.setState({
+    //     errors: {
+    //       ...this.state.errors,
+    //       cognito: err
+    //     }
+    //   });
+    // }
+  };
 
   onInputChange = event => {
     this.setState({
       [event.target.id]: event.target.value
     });
     document.getElementById(event.target.id).classList.remove("is-danger");
-  }
+  };
 
   render() {
     return (
       <section className="section auth">
         <div className="container">
-          <h1>Register</h1>
+          <h1>Log in</h1>
           <FormErrors formerrors={this.state.errors} />
 
           <form onSubmit={this.handleSubmit}>
@@ -83,27 +75,11 @@ class Register extends Component {
                   className="input" 
                   type="text"
                   id="username"
-                  aria-describedby="userNameHelp"
-                  placeholder="Enter username"
+                  aria-describedby="usernameHelp"
+                  placeholder="Enter username or email"
                   value={this.state.username}
                   onChange={this.onInputChange}
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <input 
-                  className="input" 
-                  type="email"
-                  id="email"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email"
-                  value={this.state.email}
-                  onChange={this.onInputChange}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
               </p>
             </div>
             <div className="field">
@@ -122,21 +98,6 @@ class Register extends Component {
               </p>
             </div>
             <div className="field">
-              <p className="control has-icons-left">
-                <input 
-                  className="input" 
-                  type="password"
-                  id="confirmpassword"
-                  placeholder="Confirm password"
-                  value={this.state.confirmpassword}
-                  onChange={this.onInputChange}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-lock"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field">
               <p className="control">
                 <a href="/forgotpassword">Forgot password?</a>
               </p>
@@ -144,7 +105,7 @@ class Register extends Component {
             <div className="field">
               <p className="control">
                 <button className="button is-success">
-                  Register
+                  Login
                 </button>
               </p>
             </div>
@@ -155,4 +116,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default LogIn;

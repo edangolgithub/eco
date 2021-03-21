@@ -1,9 +1,10 @@
 const users = require("./user-management");
 
 module.exports.hello = async (event) => {
-  //const body = JSON.parse(event.body);
-  const body=event;
-  if (event.path === "signup") return signUp(body);
+  const body = JSON.parse(event.body);
+  //const body=event;
+  if (event.path === "signup") 
+  return signUp(body);
   return signIn(body);
 };
 

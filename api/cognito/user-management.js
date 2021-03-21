@@ -2,8 +2,11 @@ global.fetch = require("node-fetch");
 const Cognito = require("amazon-cognito-identity-js");
 
 const userPool = new Cognito.CognitoUserPool({
-    UserPoolId: process.env.USER_POOL_ID,
-    ClientId: process.env.USER_POOL_CLIENT_ID
+    // UserPoolId: process.env.USER_POOL_ID,
+    // ClientId: process.env.USER_POOL_CLIENT_ID
+
+    UserPoolId: "us-east-1_bFZyY3rig",
+    ClientId: "3f1t8fugsnens3a5f5knnc9358"
 });
 
 exports.signUp = (username, password, email) =>
