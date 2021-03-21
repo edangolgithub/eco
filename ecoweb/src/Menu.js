@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
+import Login from './Login'
+import Register from './Register'
 import Home from './Home'
 import Inventory from './InventoryList'
 class MainMenu extends Component {   
@@ -26,7 +28,8 @@ class MainMenu extends Component {
                             </NavDropdown>
                         </Nav>
                         <Nav>
-                            <Nav.Link href="#NgoApi"></Nav.Link>
+                            <Nav.Link href="#Login">Login</Nav.Link>
+                            <Nav.Link href="#Register">Register</Nav.Link>
                             <Nav.Link eventKey={2} href="#memes">
                                 
                         </Nav.Link>
@@ -40,6 +43,12 @@ class MainMenu extends Component {
                         </Route>
                         <Route path="/inventory">
                             <Inventory />
+                        </Route>
+                        <Route path="/Login">
+                            <Login />
+                        </Route>
+                        <Route path="/Register">
+                            <Register />
                         </Route>
                         
                     </Switch>
