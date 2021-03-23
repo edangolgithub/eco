@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import FormErrors from "../../FormErrors";
-import Validate from "../FormValidation";
-
+import FormErrors from "./FormErrors";
+import Validate from "./FormValidation";
+import axios from 'axios'
 
 class LogIn extends Component {
   state = {
@@ -33,7 +33,37 @@ class LogIn extends Component {
         errors: { ...this.state.errors, ...error }
       });
     }
-
+    try {
+      const user = await
+        axios.post('https://nkys95a4t0.execute-api.us-east-1.amazonaws.com/Prod/cognito',
+          {
+            username: this.state.username,
+            password: this.state.password,
+            attributes: {
+              email: this.state.email
+            },
+            fun: "signin"
+          });
+      console.log(user);
+      if (user.data.name === "UserNotConfirmedException") {
+        alert(user.data.message);
+      }
+      else {
+        this.props.auth.setAuthStatus(true);
+        this.props.auth.setUser(user);
+        this.props.history.push("/");
+      }
+    }
+    catch (error) {
+      let err = null;
+      !error.message ? err = { "message": error } : err = error;
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          cognito: err
+        }
+      });
+    }
     // AWS Cognito integration here
 
     // try {
@@ -71,8 +101,8 @@ class LogIn extends Component {
           <form onSubmit={this.handleSubmit}>
             <div className="field">
               <p className="control">
-                <input 
-                  className="input" 
+                <input
+                  className="input"
                   type="text"
                   id="username"
                   aria-describedby="usernameHelp"
@@ -84,8 +114,8 @@ class LogIn extends Component {
             </div>
             <div className="field">
               <p className="control has-icons-left">
-                <input 
-                  className="input" 
+                <input
+                  className="input"
                   type="password"
                   id="password"
                   placeholder="Password"
@@ -99,7 +129,7 @@ class LogIn extends Component {
             </div>
             <div className="field">
               <p className="control">
-                <a href="/forgotpassword">Forgot password?</a>
+                <a href="#forgotpassword">Forgot password?</a>
               </p>
             </div>
             <div className="field">

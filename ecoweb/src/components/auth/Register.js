@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import FormErrors from "../../FormErrors";
-import Validate from "../FormValidation";
-
+import FormErrors from "./FormErrors";
+import Validate from "./FormValidation";
+import axios from 'axios'
 
 class Register extends Component {
   state = {
@@ -43,18 +43,27 @@ class Register extends Component {
     const { username, email, password } = this.state;
     console.log(username)
     console.log(email)
-    console.log(password)
+
 
     try {
-      const signUpResponse = await axios.post('/login', {
-        userName: username,
-        password: password,
-        attributes: {
-          email: email
-        }
-      });
-      this.props.history.push("/welcome");
-      console.log(signUpResponse);
+      const signUpResponse = await
+        axios.post('https://nkys95a4t0.execute-api.us-east-1.amazonaws.com/Prod/cognito',
+          {
+            username: username,
+            password: password,
+            email: email,
+            fun: "signup"
+          });
+      console.log(this.props.history);
+      console.log(signUpResponse.data.name);
+      console.log(signUpResponse.data.name);
+      if (signUpResponse.data.name === "UsernameExistsException") {
+        alert("User Name exists")
+      }
+      else {
+        this.props.history.push("/Welcome");
+      }
+
     } catch (error) {
       let err = null;
       !error.message ? err = { "message": error } : err = error;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import FormErrors from "../../FormErrors";
-import Validate from "../FormValidation";
+import FormErrors from "./FormErrors";
+import Validate from "./FormValidation";
 
 class ForgotPassword extends Component {
   state = {
@@ -78,11 +78,11 @@ class ForgotPassword extends Component {
                 </span>
               </p>
             </div>
-            <div className="field">
+            {/* <div className="field">
               <p className="control">
                 <a href="/forgotpassword">Forgot password?</a>
               </p>
-            </div>
+            </div> */}
             <div className="field">
               <p className="control">
                 <button className="button is-success">

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import FormErrors from "../../FormErrors";
-import Validate from "../FormValidation";
+import FormErrors from "./FormErrors";
+import Validate from "./FormValidation";
 
 
 class ChangePassword extends Component {
