@@ -1,6 +1,7 @@
 .binline
 {
     display:inline;
+    margin-right:10px;
 }
 .react-bootstrap-table
 {
@@ -9,7 +10,16 @@
 }
 .react-bootstrap-table th
 {
-    width:120px;
-    
+    width:120px;   
    
+}
+.form-group label
+{
+    padding:10px;
+    min-width: 150px;
+    text-align: left;
+}
+.form-group
+{
+    max-width: 600px;
 }

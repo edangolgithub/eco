@@ -1,8 +1,26 @@
 import React, { Component } from 'react';
 
+// import { AmplifySignOut } from '@aws-amplify/ui-react';
+// import { Auth } from '@aws-amplify/auth';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 
 class MainMenu extends Component {
+   
+        state = {
+            user: []
+        }
+    // componentDidMount()
+    // {
+    //      Auth.currentAuthenticatedUser()
+    //      .then(data=>{
+    //         console.log(data)
+    //         this.setState({user:data})
+    //         })
+    //         .catch(err =>{ 
+    //             this.setState({user:[]})
+    //             console.log(err)}
+    //             );
+    // }
     render() {
         return (
             <div>
@@ -29,10 +47,16 @@ class MainMenu extends Component {
                                 <span>
                                     {/* Hello {this.props.auth.user.username} */}
                                 Hello {this.props.auth.user.data.idToken.payload["cognito:username"]}
+
+                                {/* {console.log(this.props.auth.user.data)} */}
                                 </span>
                             )}
                         </span>
                         <Nav>
+                            {/* {
+                                this.state.user &&
+                                <AmplifySignOut />
+                            } */}
                             {this.props.auth.isAuthenticated && (
                                 <Nav.Link href="/" onClick={this.handleLogOut} className="button is-light">
                                     Log out

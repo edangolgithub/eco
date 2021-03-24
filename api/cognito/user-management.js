@@ -9,6 +9,7 @@ const userPool = new Cognito.CognitoUserPool({
     ClientId: "3f1t8fugsnens3a5f5knnc9358"
 });
 
+
 exports.signUp = (username, password, email) =>
     new Promise((resolve, reject) => {
         var attributeList = [];
@@ -44,23 +45,38 @@ exports.signIn = (username, password) =>
         });
     });
 
-exports.forgotPassword = (email) =>
+exports.forgotPassword = (username, email) =>
     new Promise((resolve, reject) => {
         console.log(email)
-        userPool.forgotPassword(email, (error, result) =>
+        const userData = {
+            Username: username,
+            Pool: userPool
+        }
+        const user = new Cognito.CognitoUser(userData);
+        user.forgotPassword(email, (error, result) =>
             error ? reject(error) : resolve(result)
         )
+
     }
     );
-exports.forgotPasswordSubmit = (email, verificationcode, newpassword) =>
+exports.forgotPasswordSubmit = (username, email, verificationcode, newpassword) =>
     new Promise((resolve, reject) => {
-        userPool.forgotPasswordSubmit(email, verificationcode, newpassword, (error, result) =>
+        const userData = {
+            Username: username,
+            Pool: userPool
+        }
+        const user = new Cognito.CognitoUser(userData);
+        console.log(user)
+        console.log(verificationcode)
+        console.log(newpassword)
+        user.confirmPassword(verificationcode, newpassword, (error, result) =>
             error ? reject(error) : resolve(result)
         )
     }
     );
 
-exports.currentSession= () =>
+
+exports.currentSession = () =>
     new Promise((resolve, reject) => {
         userPool.currentSession((error, result) =>
             error ? reject(error) : resolve(result)
@@ -68,14 +84,14 @@ exports.currentSession= () =>
     }
     );
 
-exports.getCurrentUser= () =>
+exports.getCurrentUser = () =>
     new Promise((resolve, reject) => {
         userPool.getCurrentUser((error, result) =>
             error ? reject(error) : resolve(result)
         )
     }
     );
-    exports.listUsers = () =>
+exports.listUsers = () =>
     new Promise((resolve, reject) => {
         userPool.listUsers((error, result) =>
             error ? reject(error) : resolve(result)

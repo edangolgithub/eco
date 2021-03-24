@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FormErrors from "./FormErrors";
 import Validate from "./FormValidation";
 import axios from 'axios'
+import { forgotPassword } from './Forgot'
 
 class LogIn extends Component {
   state = {
@@ -12,7 +13,22 @@ class LogIn extends Component {
       blankfield: false
     }
   };
+  constructor() {
+    super();
+    this.forgot = this.forgot.bind(this)
+  }
 
+
+  forgot(event) {
+    event.preventDefault();
+    console.log(this.state.username)
+    if(this.state.username.length<1)
+    {
+      alert("username required")
+      return;
+    }
+    forgotPassword(this.state.username);
+  }
   clearErrorState = () => {
     this.setState({
       errors: {
@@ -44,9 +60,11 @@ class LogIn extends Component {
             },
             fun: "signin"
           });
-      console.log(user);
-      if (user.data.name === "UserNotConfirmedException") {
-        alert(user.data.message);
+   //   console.log(user);
+      if (!user.data.hasOwnProperty('accessToken')) {
+        console.log(user.data.message);
+        this.props.auth.setAuthStatus(false);
+        this.props.auth.setUser(null);
       }
       else {
         this.props.auth.setAuthStatus(true);
@@ -129,7 +147,8 @@ class LogIn extends Component {
             </div>
             <div className="field">
               <p className="control">
-                <a href="#forgotpassword">Forgot password?</a>
+                {/* <a href="#forgotpassword">Forgot password?</a> */}
+                <button onClick={this.forgot} >Forgot password?</button>
               </p>
             </div>
             <div className="field">

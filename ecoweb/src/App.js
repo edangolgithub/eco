@@ -14,7 +14,10 @@ import ChangePassword from './components/auth/ChangePassword';
 import ChangePasswordConfirm from './components/auth/ChangePasswordConfirm';
 import Welcome from './components/auth/Welcome';
 import Footer from './components/Footer';
-
+import AddInventory from './AddInventory'
+// import Amplify from 'aws-amplify';
+// import awsconfig from './aws-exports';
+// Amplify.configure(awsconfig);
 class App extends Component {
   state = {
     isAuthenticated: false,
@@ -24,12 +27,12 @@ class App extends Component {
 
   setAuthStatus = authenticated => {
     this.setState({ isAuthenticated: authenticated });
-    console.log("called")
+ //   console.log("called")
   }
 
   setUser = user => {
     this.setState({ user: user });
-    console.log(user)
+   // console.log(user)
   }
 
   render() {
@@ -38,7 +41,9 @@ class App extends Component {
       user: this.state.user,
       setAuthStatus: this.setAuthStatus,
       setUser: this.setUser
+     
     }
+    console.log(this.state.user)
     return (
 
       <div className="App">
@@ -55,9 +60,9 @@ class App extends Component {
             <Route exact path="/changepassword" render={(props) => <ChangePassword {...props} auth={authProps} />} />
             <Route exact path="/changepasswordconfirmation" render={(props) => <ChangePasswordConfirm {...props} auth={authProps} />} />
             <Route exact path="/welcome" render={(props) => <Welcome {...props} auth={authProps} />} />
-            <Route path="/inventory">
-              <Inventory />
-            </Route>
+            <Route path="/inventory" render={(props) => <Inventory {...props} auth={authProps} />} />             
+            <Route path="/AddInventory" render={(props) => <AddInventory {...props} auth={authProps} />} />             
+
           </Switch>
         </Router>
         <Footer />

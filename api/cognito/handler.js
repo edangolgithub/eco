@@ -2,7 +2,7 @@ const users = require("./user-management");
 
 module.exports.hello = async (event) => {
   //const body = JSON.parse(event.body);
-   const body=event;
+  const body = event;
 
   switch (body.fun) {
     case "signUp":
@@ -12,10 +12,10 @@ module.exports.hello = async (event) => {
       var data = await signIn(body.username, body.password)
       break;
     case "forgotPassword":
-      var data = await forgotPassword(body.email)
+      var data = await forgotPassword(body.username, body.email)
       break;
     case "forgotPasswordSubmit":
-      var data = await forgotPasswordSubmit(body.email,body.verificationcode, body.newpassword)
+      var data = await forgotPasswordSubmit(body.username, body.email, body.verificationcode, body.newpassword)
       break;
     case "currentSession":
       var data = await currentSession();
@@ -23,7 +23,7 @@ module.exports.hello = async (event) => {
     case "getCurrentUser":
       var data = await getCurrentUser()
       break;
-      case "listUsers":
+    case "listUsers":
       var data = await listUsers()
       break;
 
@@ -66,9 +66,9 @@ const forgotPassword = async (email) => {
     return e;
   }
 };
-const forgotPasswordSubmit = async (email, verificationcode, newpassword) => {
+const forgotPasswordSubmit = async (username, email, verificationcode, newpassword) => {
   try {
-    const data = await users.forgotPasswordSubmit(email, verificationcode, newpassword);
+    const data = await users.forgotPasswordSubmit(username, email, verificationcode, newpassword);
     return data;
   } catch (e) {
     console.log(e);
@@ -97,7 +97,7 @@ const getCurrentUser = async () => {
     return e;
   }
 };
-const listUsers  = async () => {
+const listUsers = async () => {
   try {
     const data = await users.listUsers();
     console.log(data)
