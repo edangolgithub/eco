@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import FormErrors from "../FormErrors";
-import Validate from "../utility/FormValidation";
-
+import FormErrors from "./FormErrors";
+import Validate from "./FormValidation";
 
 class ForgotPasswordVerification extends Component {
   state = {

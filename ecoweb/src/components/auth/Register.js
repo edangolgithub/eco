@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import FormErrors from "../FormErrors";
-import Validate from "../utility/FormValidation";
-import { Auth } from "aws-amplify";
+import FormErrors from "./FormErrors";
+import Validate from "./FormValidation";
+import axios from 'axios'
 
 class Register extends Component {
   state = {
@@ -39,17 +39,31 @@ class Register extends Component {
     }
 
     // AWS Cognito integration here
+
     const { username, email, password } = this.state;
+    console.log(username)
+    console.log(email)
+
+
     try {
-      const signUpResponse = await Auth.signUp({
-        username,
-        password,
-        attributes: {
-          email: email
-        }
-      });
-      this.props.history.push("/welcome");
-      console.log(signUpResponse);
+      const signUpResponse = await
+        axios.post('https://nkys95a4t0.execute-api.us-east-1.amazonaws.com/Prod/cognito',
+          {
+            username: username,
+            password: password,
+            email: email,
+            fun: "signup"
+          });
+      console.log(this.props.history);
+      console.log(signUpResponse.data.name);
+      console.log(signUpResponse.data.name);
+      if (signUpResponse.data.name === "UsernameExistsException") {
+        alert("User Name exists")
+      }
+      else {
+        this.props.history.push("/Welcome");
+      }
+
     } catch (error) {
       let err = null;
       !error.message ? err = { "message": error } : err = error;
@@ -60,6 +74,28 @@ class Register extends Component {
         }
       });
     }
+    // try {
+    //   const signUpResponse = await Auth.signUp({
+    //     username,
+    //     password,
+    //     attributes: {
+    //       email: email
+    //     }
+    //   });
+    //   this.props.history.push("/welcome");
+    //   console.log(signUpResponse);
+    // } catch (error) {
+    //   let err = null;
+    //   !error.message ? err = { "message": error } : err = error;
+    //   this.setState({
+    //     errors: {
+    //       ...this.state.errors,
+    //       cognito: err
+    //     }
+    //   });
+    // }
+
+
   }
 
   onInputChange = event => {
@@ -71,16 +107,17 @@ class Register extends Component {
 
   render() {
     return (
-      <section className="section auth">
+
         <div className="container">
           <h1>Register</h1>
           <FormErrors formerrors={this.state.errors} />
 
           <form onSubmit={this.handleSubmit}>
-            <div className="field">
-              <p className="control">
-                <input 
-                  className="input" 
+          <div className="container mx-auto card ig p-3" style={{width:"400px"}} >
+            <div className="form-group">
+              
+                <input
+                   className="form-control"
                   type="text"
                   id="username"
                   aria-describedby="userNameHelp"
@@ -88,12 +125,12 @@ class Register extends Component {
                   value={this.state.username}
                   onChange={this.onInputChange}
                 />
-              </p>
+             
             </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <input 
-                  className="input" 
+            <div className="form-group">
+            
+                <input
+                   className="form-control"
                   type="email"
                   id="email"
                   aria-describedby="emailHelp"
@@ -104,12 +141,12 @@ class Register extends Component {
                 <span className="icon is-small is-left">
                   <i className="fas fa-envelope"></i>
                 </span>
-              </p>
+             
             </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input 
-                  className="input" 
+            <div className="form-group">
+            
+                <input
+                   className="form-control"
                   type="password"
                   id="password"
                   placeholder="Password"
@@ -119,12 +156,12 @@ class Register extends Component {
                 <span className="icon is-small is-left">
                   <i className="fas fa-lock"></i>
                 </span>
-              </p>
+             
             </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input 
-                  className="input" 
+            <div className="form-group">
+             
+                <input
+                   className="form-control"
                   type="password"
                   id="confirmpassword"
                   placeholder="Confirm password"
@@ -134,23 +171,24 @@ class Register extends Component {
                 <span className="icon is-small is-left">
                   <i className="fas fa-lock"></i>
                 </span>
-              </p>
+              
             </div>
-            <div className="field">
+            {/* <div className="form-group">
               <p className="control">
                 <a href="/forgotpassword">Forgot password?</a>
               </p>
-            </div>
-            <div className="field">
+            </div> */}
+            <div className="form-group">
               <p className="control">
-                <button className="button is-success">
+                <button className="btn btn-primary">
                   Register
                 </button>
               </p>
             </div>
+           </div>
           </form>
         </div>
-      </section>
+  
     );
   }
 }

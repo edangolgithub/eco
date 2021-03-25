@@ -1,15 +1,22 @@
+const cog =require('./config.json')
 global.fetch = require("node-fetch");
 const Cognito = require("amazon-cognito-identity-js");
 
+//console.log(cog)
 const userPool = new Cognito.CognitoUserPool({
     // UserPoolId: process.env.USER_POOL_ID,
     // ClientId: process.env.USER_POOL_CLIENT_ID
 
-    UserPoolId: "us-east-1_bFZyY3rig",
-    ClientId: "3f1t8fugsnens3a5f5knnc9358"
+    UserPoolId: cog.UserPoolId,
+    ClientId: cog.ClientId
 });
+const userData = {
+    Username: "edangol",
+    Pool: userPool
+}
+const user=new Cognito.CognitoUser(userData);
 
-
+console.log(user)
 exports.signUp = (username, password, email) =>
     new Promise((resolve, reject) => {
         var attributeList = [];
@@ -38,45 +45,33 @@ exports.signIn = (username, password) =>
             Pool: userPool
         });
 
-        cognitoUser.authenticateUser(authenticationDetails, {
-            //  onSuccess: result => resolve(result.getIdToken().getJwtToken()),
-            onSuccess: result => resolve(result),
-            onFailure: reject
-        });
+        cognitoUser.authenticateUser(authenticationDetails, (error, result) =>
+        error ? reject(error) : resolve(result)
+        )
+        // cognitoUser.authenticateUser(authenticationDetails, {
+        //     //  onSuccess: result => resolve(result.getIdToken().getJwtToken()),
+        //     onSuccess: result => resolve(result),
+        //     onFailure: reject
+        // });
     });
 
-exports.forgotPassword = (username, email) =>
+exports.forgotPassword = (email) =>
     new Promise((resolve, reject) => {
         console.log(email)
-        const userData = {
-            Username: username,
-            Pool: userPool
-        }
-        const user = new Cognito.CognitoUser(userData);
         user.forgotPassword(email, (error, result) =>
             error ? reject(error) : resolve(result)
         )
-
     }
     );
-exports.forgotPasswordSubmit = (username, email, verificationcode, newpassword) =>
+exports.forgotPasswordSubmit = (email, verificationcode, newpassword) =>
     new Promise((resolve, reject) => {
-        const userData = {
-            Username: username,
-            Pool: userPool
-        }
-        const user = new Cognito.CognitoUser(userData);
-        console.log(user)
-        console.log(verificationcode)
-        console.log(newpassword)
         user.confirmPassword(verificationcode, newpassword, (error, result) =>
             error ? reject(error) : resolve(result)
         )
     }
     );
 
-
-exports.currentSession = () =>
+exports.currentSession= () =>
     new Promise((resolve, reject) => {
         userPool.currentSession((error, result) =>
             error ? reject(error) : resolve(result)
@@ -84,14 +79,14 @@ exports.currentSession = () =>
     }
     );
 
-exports.getCurrentUser = () =>
+exports.getCurrentUser= () =>
     new Promise((resolve, reject) => {
         userPool.getCurrentUser((error, result) =>
             error ? reject(error) : resolve(result)
         )
     }
     );
-exports.listUsers = () =>
+    exports.listUsers = () =>
     new Promise((resolve, reject) => {
         userPool.listUsers((error, result) =>
             error ? reject(error) : resolve(result)
