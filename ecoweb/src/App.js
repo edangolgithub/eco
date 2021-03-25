@@ -43,7 +43,7 @@ class App extends Component {
       setUser: this.setUser
      
     }
-    console.log(this.state.user)
+    //console.log(this.state.user)
     return (
 
       <div className="App">

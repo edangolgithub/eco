@@ -33,9 +33,9 @@ class MainMenu extends Component {
                         <Nav className="mr-auto">
                             <Nav.Link href="#/">Home</Nav.Link>
                             <Nav.Link href="#inventory">Inventory</Nav.Link>
-                            <Nav.Link href="#contact">Contact</Nav.Link>
+                            <Nav.Link href="#AddInventory">Add Inventory</Nav.Link>
                             <NavDropdown title="More" id="collasible-nav-dropdown">
-                                <NavDropdown.Item href="#action/3.1"></NavDropdown.Item>
+                                <NavDropdown.Item href="http://ecolawnlandscaping.com/">Eco lawn</NavDropdown.Item>
                                 <NavDropdown.Item href="#email"></NavDropdown.Item>
                                 <NavDropdown.Item href="#N"></NavDropdown.Item>
                                 <NavDropdown.Divider />

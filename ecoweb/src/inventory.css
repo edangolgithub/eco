@@ -13,13 +13,13 @@
     width:120px;   
    
 }
-.form-group label
+.i .form-group label
 {
     padding:10px;
     min-width: 150px;
     text-align: left;
 }
-.form-group
+.i .form-group
 {
     max-width: 600px;
 }

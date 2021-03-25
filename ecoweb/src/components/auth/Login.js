@@ -3,7 +3,7 @@ import FormErrors from "./FormErrors";
 import Validate from "./FormValidation";
 import axios from 'axios'
 import { forgotPassword } from './Forgot'
-
+import CircleLoader from '../../CircleLoader'
 class LogIn extends Component {
   state = {
     username: "",
@@ -11,7 +11,8 @@ class LogIn extends Component {
     errors: {
       cognito: null,
       blankfield: false
-    }
+    },
+    loading:false
   };
   constructor() {
     super();
@@ -40,7 +41,7 @@ class LogIn extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-
+this.setState({loading:true})
     // Form validation
     this.clearErrorState();
     const error = Validate(event, this.state);
@@ -65,6 +66,8 @@ class LogIn extends Component {
         console.log(user.data.message);
         this.props.auth.setAuthStatus(false);
         this.props.auth.setUser(null);
+        this.setState({loading:false})
+        alert(user.data.message)
       }
       else {
         this.props.auth.setAuthStatus(true);
@@ -80,7 +83,9 @@ class LogIn extends Component {
           ...this.state.errors,
           cognito: err
         }
+        
       });
+      this.setState({loading:false})
     }
     // AWS Cognito integration here
 
@@ -100,6 +105,7 @@ class LogIn extends Component {
     //     }
     //   });
     // }
+    //this.setState({loading:false})
   };
 
   onInputChange = event => {
@@ -110,17 +116,16 @@ class LogIn extends Component {
   };
 
   render() {
-    return (
-      <section className="section auth">
-        <div className="container">
+    return (     
+        <div className="container loginform mx-auto ">
           <h1>Log in</h1>
           <FormErrors formerrors={this.state.errors} />
 
           <form onSubmit={this.handleSubmit}>
-            <div className="field">
-              <p className="control">
+            <div className="container mx-auto card ig p-3" style={{width:"400px"}} >
+            <div className="form-group">             
                 <input
-                  className="input"
+                  className="form-control"
                   type="text"
                   id="username"
                   aria-describedby="usernameHelp"
@@ -128,39 +133,44 @@ class LogIn extends Component {
                   value={this.state.username}
                   onChange={this.onInputChange}
                 />
-              </p>
+             
             </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input"
+            <div className="form-group">              
+                <input 
+                  className="form-control"
                   type="password"
                   id="password"
                   placeholder="Password"
                   value={this.state.password}
                   onChange={this.onInputChange}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-lock"></i>
-                </span>
-              </p>
+               
+         
             </div>
-            <div className="field">
-              <p className="control">
+            {this.state.loading ? <CircleLoader  /> :
+           <div>
+            <div className="form-group">
+           
+            
+                <button  className="button form-control btn-primary">
+                 Login
+              </button>
+           
+            </div>
+              <div className="form-group">
+             
                 {/* <a href="#forgotpassword">Forgot password?</a> */}
-                <button onClick={this.forgot} >Forgot password?</button>
-              </p>
+                <button  className="btn btn-link" onClick={this.forgot} >Forgot password?</button>
+            
             </div>
-            <div className="field">
-              <p className="control">
-                <button className="button is-success">
-                  Login
-                </button>
-              </p>
+        
+           
+            </div>
+             } 
             </div>
           </form>
         </div>
-      </section>
+      
     );
   }
 }

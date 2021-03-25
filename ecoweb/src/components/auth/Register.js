@@ -107,16 +107,17 @@ class Register extends Component {
 
   render() {
     return (
-      <section className="section auth">
+
         <div className="container">
           <h1>Register</h1>
           <FormErrors formerrors={this.state.errors} />
 
           <form onSubmit={this.handleSubmit}>
-            <div className="field">
-              <p className="control">
+          <div className="container mx-auto card ig p-3" style={{width:"400px"}} >
+            <div className="form-group">
+              
                 <input
-                  className="input"
+                   className="form-control"
                   type="text"
                   id="username"
                   aria-describedby="userNameHelp"
@@ -124,12 +125,12 @@ class Register extends Component {
                   value={this.state.username}
                   onChange={this.onInputChange}
                 />
-              </p>
+             
             </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
+            <div className="form-group">
+            
                 <input
-                  className="input"
+                   className="form-control"
                   type="email"
                   id="email"
                   aria-describedby="emailHelp"
@@ -140,12 +141,12 @@ class Register extends Component {
                 <span className="icon is-small is-left">
                   <i className="fas fa-envelope"></i>
                 </span>
-              </p>
+             
             </div>
-            <div className="field">
-              <p className="control has-icons-left">
+            <div className="form-group">
+            
                 <input
-                  className="input"
+                   className="form-control"
                   type="password"
                   id="password"
                   placeholder="Password"
@@ -155,12 +156,12 @@ class Register extends Component {
                 <span className="icon is-small is-left">
                   <i className="fas fa-lock"></i>
                 </span>
-              </p>
+             
             </div>
-            <div className="field">
-              <p className="control has-icons-left">
+            <div className="form-group">
+             
                 <input
-                  className="input"
+                   className="form-control"
                   type="password"
                   id="confirmpassword"
                   placeholder="Confirm password"
@@ -170,23 +171,24 @@ class Register extends Component {
                 <span className="icon is-small is-left">
                   <i className="fas fa-lock"></i>
                 </span>
-              </p>
+              
             </div>
-            <div className="field">
+            {/* <div className="form-group">
               <p className="control">
                 <a href="/forgotpassword">Forgot password?</a>
               </p>
-            </div>
-            <div className="field">
+            </div> */}
+            <div className="form-group">
               <p className="control">
-                <button className="button is-success">
+                <button className="btn btn-primary">
                   Register
                 </button>
               </p>
             </div>
+           </div>
           </form>
         </div>
-      </section>
+  
     );
   }
 }

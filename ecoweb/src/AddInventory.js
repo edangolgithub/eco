@@ -88,10 +88,10 @@ export class AddInventory extends Component {
         };
         var sc = "";
         switch (fname) {
-            case 'accountid':
-                errors.accountid =
-                    fvalue.length < 5
-                        ? 'Full Name must be at least 5 characters long!'
+            case 'type':
+                errors.type =
+                    fvalue.length < 1
+                        ? 'Enter Type'
                         : '';
                 break;
             case 'emailqq':
@@ -124,7 +124,7 @@ export class AddInventory extends Component {
 
     addinventory(event) {
         event.preventDefault();
-        console.log(this.props)
+       
 
 
         if (this.props.auth.user != null) {
@@ -136,6 +136,10 @@ export class AddInventory extends Component {
             );
 
         }
+
+        alert("coming soon")
+        return
+
 
         if (validateForm(this.state.errors)) {
             alert('Valid Form')
@@ -151,7 +155,7 @@ export class AddInventory extends Component {
     render() {
         const { errors } = this.state;
         return (
-            <div className="container jumbotron m-5">
+            <div className="container i jumbotron m-5">
                 <form onSubmit={this.addinventory}>
                     <div className="row">
                         <div className="col">
