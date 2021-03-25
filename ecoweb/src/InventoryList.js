@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom';
 import Loader from './Loader'
-//import axios from 'axios';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import { getallinventories, getinventorybycategory } from './Functions'
+import { columns } from './Columns'
+// import { withAuthenticator } from '@aws-amplify/ui-react';
+
 
 export class InventoryList extends Component {
     constructor() {
@@ -14,129 +17,20 @@ export class InventoryList extends Component {
             user: "",
             store: "",
             inventories: [],
-            columns: [{
-                dataField: 'siteCategory',
-                text: 'Category',
-                sort: true,
-                style: {
-                    color: 'red',
-                }
-
-            },
-            {
-                dataField: 'site',
-                text: 'Site',
-                sort: true
-            },
-            {
-                dataField: 'entryDate',
-                text: 'Entry Date',
-                sort: true,
-                formatter: (cell) => {
-                    return cell.substr(0, 10);
-                }
-                // headerStyle: { backgroundColor: 'green' , width:"500px"},
-                // style: {
-
-                //     width:"500px"
-                //   },
-
-            },
-            {
-                dataField: 'price',
-                text: 'Price',
-                sort: true,
-                formatter: (cell) => {
-                    return "$ " + cell;
-                }
-
-            },
-            {
-                dataField: 'purchasedStore',
-                text: 'Store',
-                sort: true
-
-            },
-
-            {
-                dataField: 'purchasedDate',
-                text: 'Purchased Date',
-                sort: true,
-                formatter: (cell) => {
-                    return cell.substr(0, 10);
-                }
-
-            },
-
-            {
-                dataField: 'quantityPurchased',
-                text: 'Quantity',
-                sort: true
-
-            },
-            {
-                dataField: 'quantityRemaining',
-                text: 'Quantity Rem',
-                sort: true
-
-            },
-            {
-                dataField: 'usedDate',
-                text: 'Used Date',
-                sort: true,
-                formatter: (cell) => {
-                    return cell.substr(0, 10);
-                }
-
-            },
-
-
-            {
-                dataField: 'serial',
-                text: 'Serial',
-                sort: true
-            },
-            {
-                dataField: 'model',
-                text: 'Model',
-                sort: true
-            },
-            {
-                dataField: 'partNum',
-                text: 'Part Num',
-                sort: true
-            },
-            {
-                dataField: 'soldDate',
-                text: 'Sold Date',
-                sort: true,
-                formatter: (cell) => {
-                    return cell.substr(0, 10);
-                }
-            },
-            {
-                dataField: 'state',
-                text: 'State',
-                sort: true,
-                formatter: (cell) => {
-                    cell = (cell === 1) ? "Active" : "Dead"
-                    return cell;
-                }
-
-            },
-            {
-                dataField: 'user',
-                text: 'User',
-                sort: true
-            }
-            ]
+            columns: columns
         }
         this.onCategoryChange = this.onCategoryChange.bind(this)
         this.onUserSearchChange = this.onUserSearchChange.bind(this)
         this.onStoreSearchChange = this.onStoreSearchChange.bind(this)
         this.onUserSearch = this.onUserSearch.bind(this)
         this.onStoreSearch = this.onStoreSearch.bind(this)
+        this.onAddInventory=this.onAddInventory.bind(this)
 
+    }
+    onAddInventory(event)
+    {
+        event.preventDefault()
+        this.props.history.push("/AddInventory");
     }
     onCategoryChange(event) {
         event.preventDefault()
@@ -156,7 +50,7 @@ export class InventoryList extends Component {
         }
 
         data.then(x => {
-            console.log(data)
+        //    console.log(data)
             this.setState({ inventories: x })
             this.setState({ Loading: false });
         })
@@ -165,7 +59,7 @@ export class InventoryList extends Component {
     }
     onUserSearch(e) {
         e.preventDefault();
-        console.log(this.state.user)
+     //   console.log(this.state.user)
         alert("coming soon")
     }
     onUserSearchChange(e) {
@@ -185,10 +79,11 @@ export class InventoryList extends Component {
     }
 
     render() {
+        
         return (
             <div>
                 <div className="container-fluid">
-                    <div className="container">
+                    <div className="container-fluid">
                         <div className="row mb-1">
                             <div className="col-sm">
                                 <select onChange={this.onCategoryChange} className="custom-select custom-select-sm">
@@ -208,6 +103,11 @@ export class InventoryList extends Component {
                                 <input type="text" onChange={this.onStoreSearchChange}
                                     className="form-control mr-1" id="storesearch" placeholder="Store" />
                                 <button onClick={this.onStoreSearch} className="btn btn-success binline">Search</button>
+
+                            </div>
+                            <div className="col-sm d-flex">
+                                <button onClick={this.onAddInventory} className="btn btn-success binline">Add</button>
+
                             </div>
                         </div>
                     </div>
@@ -232,4 +132,5 @@ export class InventoryList extends Component {
     }
 }
 
-export default InventoryList
+//export default withAuthenticator(InventoryList);
+export default withRouter(InventoryList);
