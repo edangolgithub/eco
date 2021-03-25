@@ -124,7 +124,7 @@ export class AddInventory extends Component {
 
     addinventory(event) {
         event.preventDefault();
-       
+
 
 
         if (this.props.auth.user != null) {
@@ -138,11 +138,9 @@ export class AddInventory extends Component {
         }
 
         alert("coming soon")
-        return
-
 
         if (validateForm(this.state.errors)) {
-            alert('Valid Form')
+            //alert('Valid Form')
             return
             //fun.postnewaccount(this.state.data)
         } else {

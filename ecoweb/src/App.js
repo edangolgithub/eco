@@ -14,7 +14,8 @@ import ChangePassword from './components/auth/ChangePassword';
 import ChangePasswordConfirm from './components/auth/ChangePasswordConfirm';
 import Welcome from './components/auth/Welcome';
 import Footer from './components/Footer';
-import AddInventory from './AddInventory'
+import AddInventory from './AddInventory';
+//import {test} from './components/auth/Usersdk'
 // import Amplify from 'aws-amplify';
 // import awsconfig from './aws-exports';
 // Amplify.configure(awsconfig);
@@ -43,6 +44,7 @@ class App extends Component {
       setUser: this.setUser
      
     }
+ //test();
     //console.log(this.state.user)
     return (
 

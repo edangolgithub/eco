@@ -1,4 +1,5 @@
 {
     "UserPoolId": "us-east-1_bFZyY3rig",
-    "ClientId": "3f1t8fugsnens3a5f5knnc9358"
+    "ClientId": "3f1t8fugsnens3a5f5knnc9358",
+    "IdentityPoolId":"us-east-1:c55baa64-071d-44e5-ae43-85507c4627af"
 }
