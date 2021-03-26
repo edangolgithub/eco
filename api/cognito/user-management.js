@@ -1,4 +1,5 @@
-global.fetch = require("node-fetch");
+global.fetch = require("node-fetch").default;
+
 const Cognito = require("amazon-cognito-identity-js");
 
 const userPool = new Cognito.CognitoUserPool({

@@ -1,8 +1,9 @@
+const identity = require("./UserSdk")
 const users = require("./user-management");
 
 module.exports.hello = async (event) => {
-  //const body = JSON.parse(event.body);
-  const body = event;
+  //const body = JSON.parse(event.body); // for api gate way
+  const body = event; // forlambda only without apigateway
 
   switch (body.fun) {
     case "signUp":
@@ -25,6 +26,9 @@ module.exports.hello = async (event) => {
       break;
     case "listUsers":
       var data = await listUsers()
+      break;
+    case "listGroups":
+      var data = await listGroups()
       break;
 
   }
@@ -57,24 +61,24 @@ const signIn = async (username, password) => {
     return e;
   }
 };
-const forgotPassword = async (email) => {
-  try {
-    const data = await users.forgotPassword(email);
-    return data;
-  } catch (e) {
-    console.log(e);
-    return e;
-  }
-};
-const forgotPasswordSubmit = async (username, email, verificationcode, newpassword) => {
-  try {
-    const data = await users.forgotPasswordSubmit(username, email, verificationcode, newpassword);
-    return data;
-  } catch (e) {
-    console.log(e);
-    return e;
-  }
-};
+// const forgotPassword = async (email) => {
+//   try {
+//     const data = await users.forgotPassword(email);
+//     return data;
+//   } catch (e) {
+//     console.log(e);
+//     return e;
+//   }
+// };
+// const forgotPasswordSubmit = async (username, email, verificationcode, newpassword) => {
+//   try {
+//     const data = await users.forgotPasswordSubmit(username, email, verificationcode, newpassword);
+//     return data;
+//   } catch (e) {
+//     console.log(e);
+//     return e;
+//   }
+// };
 
 
 const currentSession = async () => {
@@ -99,7 +103,17 @@ const getCurrentUser = async () => {
 };
 const listUsers = async () => {
   try {
-    const data = await users.listUsers();
+    const data = await identity.test();
+    console.log(data)
+    return data;
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+};
+const listGroups = async () => {
+  try {
+    const data = await identity.listGroups();
     console.log(data)
     return data;
   } catch (e) {
