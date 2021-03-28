@@ -32,7 +32,7 @@ class App extends Component {
 
   setUser = user => {
     this.setState({ user: user });
-   // console.log(user)
+    console.log(user)
   }
 
   render() {
