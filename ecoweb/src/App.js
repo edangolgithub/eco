@@ -46,8 +46,9 @@ class App extends Component {
   setUser = user => {
     this.setState({ user: user });
     this.setState({ jwt: user.idToken.jwtToken });
-    console.log(user.idToken.jwtToken)
+   console.log(user.idToken.jwtToken)
    console.log(user.idToken)
+
   }
   componentDidMount()
   {
