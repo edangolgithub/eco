@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import FormErrors from "./FormErrors";
 import Validate from "./FormValidation";
-import axios from 'axios'
+//import axios from 'axios'
+import { signUp } from './user-management';
 
 class Register extends Component {
   state = {
@@ -9,6 +10,8 @@ class Register extends Component {
     email: "",
     password: "",
     confirmpassword: "",
+    name:"",
+    address:"",
     errors: {
       cognito: null,
       blankfield: false,
@@ -40,24 +43,27 @@ class Register extends Component {
 
     // AWS Cognito integration here
 
-    const { username, email, password } = this.state;
+    const { username, email, password ,name,address} = this.state;
     console.log(username)
     console.log(email)
 
 
     try {
-      const signUpResponse = await
-        axios.post('https://nkys95a4t0.execute-api.us-east-1.amazonaws.com/Prod/cognito',
-          {
-            username: username,
-            password: password,
-            email: email,
-            fun: "signup"
-          });
-      console.log(this.props.history);
-      console.log(signUpResponse.data.name);
-      console.log(signUpResponse.data.name);
-      if (signUpResponse.data.name === "UsernameExistsException") {
+      // const signUpResponse = await
+      //   axios.post('https://nkys95a4t0.execute-api.us-east-1.amazonaws.com/Prod/cognito',
+      //     {
+      //       username: username,
+      //       password: password,
+      //       email: email,
+      //       fun: "signup"
+      //     });
+          const signUpResponse = await
+          signUp(username,password,email,name,address)
+     // console.log(this.props.history);
+      //console.log(signUpResponse.data.name);
+      console.log(signUpResponse);
+     
+      if (signUpResponse.name === "UsernameExistsException") {
         alert("User Name exists")
       }
       else {
@@ -173,11 +179,36 @@ class Register extends Component {
                 </span>
               
             </div>
-            {/* <div className="form-group">
-              <p className="control">
-                <a href="/forgotpassword">Forgot password?</a>
-              </p>
-            </div> */}
+            <div className="form-group">
+             
+                <input
+                   className="form-control"
+                  type="text"
+                  id="name"
+                  placeholder="Full Name"
+                  value={this.state.name}
+                  onChange={this.onInputChange}
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-lock"></i>
+                </span>
+              
+            </div>
+            <div className="form-group">
+             
+                <input
+                   className="form-control"
+                  type="text"
+                  id="address"
+                  placeholder="Address"
+                  value={this.state.address}
+                  onChange={this.onInputChange}
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-lock"></i>
+                </span>
+              
+            </div>
             <div className="form-group">
               <p className="control">
                 <button className="btn btn-primary">

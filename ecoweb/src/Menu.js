@@ -46,7 +46,7 @@ class MainMenu extends Component {
                             {this.props.auth.isAuthenticated && this.props.auth.user && (
                                 <span>
                                     {/* Hello {this.props.auth.user.username} */}
-                                Hello {this.props.auth.user.data.idToken.payload["cognito:username"]}
+                                Hello {this.props.auth.user.idToken.payload["cognito:username"]}
 
                                 {/* {console.log(this.props.auth.user.data)} */}
                                 </span>

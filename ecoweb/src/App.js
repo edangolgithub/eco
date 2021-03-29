@@ -15,6 +15,9 @@ import ChangePasswordConfirm from './components/auth/ChangePasswordConfirm';
 import Welcome from './components/auth/Welcome';
 import Footer from './components/Footer';
 import AddInventory from './AddInventory';
+import axios from 'axios'
+
+import { currentSession } from './components/auth/user-management';
 //import {test} from './components/auth/Usersdk'
 // import Amplify from 'aws-amplify';
 // import awsconfig from './aws-exports';
@@ -23,19 +26,48 @@ class App extends Component {
   state = {
     isAuthenticated: false,
     isAuthenticating: true,
-    user: null
+    user: null,
+    jwt:""
+  }
+  constructor()
+  {
+    super();
+    this.checkapiauth=this.checkapiauth.bind(this)
   }
 
   setAuthStatus = authenticated => {
     this.setState({ isAuthenticated: authenticated });
  //   console.log("called")
   }
+  setJwt = jwt => {
+   
+  }
 
   setUser = user => {
     this.setState({ user: user });
-   // console.log(user)
+    this.setState({ jwt: user.idToken.jwtToken });
+    console.log(user.idToken.jwtToken)
+   console.log(user.idToken)
   }
-
+  componentDidMount()
+  {
+    var session=currentSession();
+    console.log(session)
+  }
+  checkapiauth(event)
+  {
+    event.preventDefault()
+    var data =axios.get('https://vhkrb2owtc.execute-api.us-east-1.amazonaws.com/dev' ,{
+      headers: {
+        Authorization: 'Bearer ' + this.state.jwt //the token is a variable which holds the token
+      }
+     })
+    data.then((response) => {
+     alert(response.data);
+    }, (error) => {
+      alert(error);
+    });
+   }
   render() {
     const authProps = {
       isAuthenticated: this.state.isAuthenticated,
@@ -50,6 +82,7 @@ class App extends Component {
 
       <div className="App">
         <Menu auth={authProps} />
+        <button className="btn btn-danger" onClick={this.checkapiauth}>check apigateway restriction</button>
         <Router>
           <Switch>
             <Route exact path="/" render={(props) => <Home {...props} auth={authProps} />} />

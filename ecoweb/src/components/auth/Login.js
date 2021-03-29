@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import FormErrors from "./FormErrors";
 import Validate from "./FormValidation";
-import axios from 'axios'
+
 import { forgotPassword } from './Forgot'
 import CircleLoader from '../../CircleLoader'
+import { signIn } from './user-management.js'
 class LogIn extends Component {
   state = {
     username: "",
@@ -12,19 +13,19 @@ class LogIn extends Component {
       cognito: null,
       blankfield: false
     },
-    loading:false
+    loading: false
   };
   constructor() {
     super();
     this.forgot = this.forgot.bind(this)
+    
   }
 
 
   forgot(event) {
     event.preventDefault();
     console.log(this.state.username)
-    if(this.state.username.length<1)
-    {
+    if (this.state.username.length < 1) {
       alert("username required")
       return;
     }
@@ -41,7 +42,8 @@ class LogIn extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-this.setState({loading:true})
+    console.log("hello")
+    this.setState({ loading: true })
     // Form validation
     this.clearErrorState();
     const error = Validate(event, this.state);
@@ -51,25 +53,39 @@ this.setState({loading:true})
       });
     }
     try {
-      const user = await
-        axios.post('https://nkys95a4t0.execute-api.us-east-1.amazonaws.com/Prod/cognito',
-          {
-            username: this.state.username,
-            password: this.state.password,
-            attributes: {
-              email: this.state.email
-            },
-            fun: "signin"
-          });
-   //   console.log(user);
-      if (!user.data.hasOwnProperty('accessToken')) {
-        console.log(user.data.message);
+      // const user = await
+      //   axios.post('https://nkys95a4t0.execute-api.us-east-1.amazonaws.com/Prod/cognito',
+      //     {
+      //       username: this.state.username,
+      //       password: this.state.password,
+      //       attributes: {
+      //         email: this.state.email
+      //       },
+      //       fun: "signin"
+      //     });
+
+
+      const user = await signIn(this.state.username, this.state.password)
+
+
+
+
+
+      console.log(user);
+      //xyz();
+
+      if (!user) {
+
+        //console.log(user.data.message);
         this.props.auth.setAuthStatus(false);
         this.props.auth.setUser(null);
-        this.setState({loading:false})
-        alert(user.data.message)
+        this.setState({ loading: false })
+        // alert(user.data.message)
+        return;
+
       }
       else {
+       
         this.props.auth.setAuthStatus(true);
         this.props.auth.setUser(user);
         this.props.history.push("/");
@@ -83,9 +99,9 @@ this.setState({loading:true})
           ...this.state.errors,
           cognito: err
         }
-        
+
       });
-      this.setState({loading:false})
+      this.setState({ loading: false })
     }
     // AWS Cognito integration here
 
@@ -108,6 +124,7 @@ this.setState({loading:true})
     //this.setState({loading:false})
   };
 
+ 
   onInputChange = event => {
     this.setState({
       [event.target.id]: event.target.value
@@ -116,61 +133,63 @@ this.setState({loading:true})
   };
 
   render() {
-    return (     
-        <div className="container loginform mx-auto ">
-          <h1>Log in</h1>
-          <FormErrors formerrors={this.state.errors} />
+    return (
+      <div className="container loginform mx-auto ">
+        <h1>Log in</h1>
+        <FormErrors formerrors={this.state.errors} />
 
-          <form onSubmit={this.handleSubmit}>
-            <div className="container mx-auto card ig p-3" style={{width:"400px"}} >
-            <div className="form-group">             
-                <input
-                  className="form-control"
-                  type="text"
-                  id="username"
-                  aria-describedby="usernameHelp"
-                  placeholder="Enter username or email"
-                  value={this.state.username}
-                  onChange={this.onInputChange}
-                />
-             
-            </div>
-            <div className="form-group">              
-                <input 
-                  className="form-control"
-                  type="password"
-                  id="password"
-                  placeholder="Password"
-                  value={this.state.password}
-                  onChange={this.onInputChange}
-                />
-               
-         
-            </div>
-            {this.state.loading ? <CircleLoader  /> :
-           <div>
+        <form onSubmit={this.handleSubmit}>
+          <div className="container mx-auto card ig p-3" style={{ width: "400px" }} >
             <div className="form-group">
-           
-            
-                <button  className="button form-control btn-primary">
-                 Login
+              <input
+                className="form-control"
+                type="text"
+                id="username"
+                aria-describedby="usernameHelp"
+                placeholder="Enter username or email"
+                value={this.state.username}
+                onChange={this.onInputChange}
+              />
+
+            </div>
+            <div className="form-group">
+              <input
+                className="form-control"
+                type="password"
+                id="password"
+                placeholder="Password"
+                value={this.state.password}
+                onChange={this.onInputChange}
+              />
+
+
+            </div>
+            {this.state.loading ? <CircleLoader /> :
+              <div>
+                <div className="form-group">
+
+
+                  <button className="button form-control btn-primary">
+                    Login
               </button>
-           
-            </div>
-              <div className="form-group">
-             
-                {/* <a href="#forgotpassword">Forgot password?</a> */}
-                <button  className="btn btn-link" onClick={this.forgot} >Forgot password?</button>
-            
-            </div>
-        
-           
-            </div>
-             } 
-            </div>
-          </form>
-        </div>
-      
+
+                </div>
+                <div className="form-group">
+
+                  {/* <a href="#forgotpassword">Forgot password?</a> */}
+                  <button className="btn btn-link" onClick={this.forgot} >Forgot password?</button>
+
+                </div>
+
+
+              </div>
+            }
+
+            <button onClick={this.checkapiauth}>click</button>
+          </div>
+        </form>
+      </div>
+
     );
   }
 }
