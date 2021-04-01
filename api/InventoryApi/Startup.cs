@@ -13,6 +13,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using InventoryApi.data;
 using Amazon.DynamoDBv2;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace InventoryApi
 {
@@ -41,6 +45,36 @@ namespace InventoryApi
                    .AllowAnyHeader();
         }));
             services.AddControllers();
+            var Region = Configuration["AWSCognito:Region"];
+            var PoolId = Configuration["AWSCognito:PoolId"];
+            var AppClientId = Configuration["AWSCognito:AppClientId"];
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKeyResolver = (s, securityToken, identifier, parameters) =>
+                        {
+                  // Get JsonWebKeySet from AWS
+                  var json = new WebClient().DownloadString(parameters.ValidIssuer + "/.well-known/jwks.json");
+                  // Serialize the result
+                  return JsonConvert.DeserializeObject<JsonWebKeySet>(json).Keys;
+                        },
+                        ValidateIssuer = true,
+                        ValidIssuer = $"https://cognito-idp.us-east-1.amazonaws.com/us-east-1_bFZyY3rig",
+                        ValidateLifetime = true,
+                        LifetimeValidator = (before, expires, token, param) => expires > DateTime.UtcNow,
+                        ValidateAudience = true,
+                        ValidAudience = AppClientId,
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -50,7 +84,7 @@ namespace InventoryApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseAuthentication();
             app.UseHttpsRedirection();
 
             app.UseRouting();

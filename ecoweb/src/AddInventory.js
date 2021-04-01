@@ -124,7 +124,7 @@ export class AddInventory extends Component {
 
     addinventory(event) {
         event.preventDefault();
-
+console.log(this.state.data)
 
 
         if (this.props.auth.user != null) {

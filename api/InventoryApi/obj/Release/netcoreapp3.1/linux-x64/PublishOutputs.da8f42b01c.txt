@@ -15,3 +15,11 @@
 /home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/AWSSDK.Core.dll
 /home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/AWSSDK.DynamoDBv2.dll
 /home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/AWSSDK.Extensions.NETCore.Setup.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/Microsoft.IdentityModel.Logging.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/Microsoft.IdentityModel.Protocols.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/Microsoft.IdentityModel.Tokens.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/Newtonsoft.Json.dll
+/home/ec2-user/eco/api/InventoryApi/bin/Release/netcoreapp3.1/publish/System.IdentityModel.Tokens.Jwt.dll
