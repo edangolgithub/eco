@@ -32,7 +32,7 @@ namespace InventoryApi.Controllers
 
             return data.OrderByDescending(a => a.PurchasedDate);
         }
-        [Authorize]
+         [Authorize]
         [HttpPost]
         public async Task Post([FromBody] Inventory model)
         {
