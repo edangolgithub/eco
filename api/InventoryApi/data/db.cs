@@ -89,7 +89,8 @@ namespace InventoryApi.data
         {
             entity.Id
              = Guid.NewGuid().ToString();
-            entity.EntryDate = DateTime.Now.ToShortTimeString();
+             entity.State=1;
+            entity.EntryDate = DateTime.Now.ToShortDateString();
             await _context.SaveAsync<Inventory>(entity);
         }
 

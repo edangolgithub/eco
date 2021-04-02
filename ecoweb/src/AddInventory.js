@@ -68,11 +68,11 @@ export class AddInventory extends Component {
     }
     resolvesite(site) {
         switch (site) {
-            case "Shed A":
+            case "ShedA":
                 return "Landscaping";
-            case "Shed B":
+            case "ShedB":
                 return "Small Tools";
-            case "Shed C":
+            case "ShedC":
                 return "Big Tools";
             default:
                 break;
@@ -106,6 +106,18 @@ export class AddInventory extends Component {
                         ? 'Password must be at least 8 characters long!'
                         : '';
                 break;
+            case 'price':
+                d.price=parseFloat(d.price);
+                break;
+            case 'quantityPurchased':
+                d.quantityPurchased=parseInt(d.quantityPurchased);
+                break;
+            case 'quantityRemaining':
+                d.quantityRemaining=parseInt(d.quantityRemaining);
+                break;
+            case 'quantity':
+                d.quantity=parseInt(d.quantity);
+                break;
             case 'site':
                 sc = this.resolvesite(evt.target.value)
                 if (sc.length > 0) {
@@ -124,24 +136,43 @@ export class AddInventory extends Component {
 
     addinventory(event) {
         event.preventDefault();
+       // console.log(this.state.data)
+       // console.log(this.props)
 
-
-
-        if (this.props.auth.user != null) {
+        if (this.props.auth.user != null) {          
             var d = {
-                ...this.state.data, user: this.props.auth.user.data.idToken.payload["cognito:username"]
+                ...this.state.data, user: this.props.auth.user.idToken.payload["cognito:username"]
             }
             this.setState({ data: d }, () =>
                 console.log(this.state.data)
             );
 
         }
+        else{
+            alert("Login to Continue")
+            return
+        }
 
-        alert("coming soon")
+      //  alert("coming soon")
+       
 
         if (validateForm(this.state.errors)) {
-            //alert('Valid Form')
-            return
+            let config = {
+                headers: {
+                  'Authorization': 'Bearer ' + this.props.auth.user.idToken.jwtToken
+                }
+              }
+              axios.post( 
+                  'https://nkys95a4t0.execute-api.us-east-1.amazonaws.com/Prod/api/inventory',
+                  d,
+                  config
+                )
+                .then( ( response ) => {
+                  console.log( response )
+                } )
+                .catch()
+
+           
             //fun.postnewaccount(this.state.data)
         } else {
             alert('Invalid Form')
@@ -187,9 +218,9 @@ export class AddInventory extends Component {
                                 <label htmlFor="accountname">Site</label>
                                 <select name="site" onChange={this.handleChange} className="custom-select custom-select-sm">
                                     <option>Select Site</option>
-                                    <option>Shed A</option>
-                                    <option>Shed B</option>
-                                    <option>Shed C</option>
+                                    <option value="ShedA">Shed A</option>
+                                    <option value="ShedB">Shed B</option>
+                                    <option value="ShedC">Shed C</option>
                                 </select>
                             </div>
                             <div className="form-group d-flex">
@@ -221,8 +252,8 @@ export class AddInventory extends Component {
                             <div className="form-group d-flex">
                                 <label htmlFor="state">state</label>
                                 <select name="state" onChange={this.handleChange} className="custom-select custom-select-sm">
-                                    <option>Active</option>
-                                    <option>Non Active</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Non Active</option>
                                 </select>
                             </div>
                             <div className="form-group d-flex">
@@ -233,7 +264,7 @@ export class AddInventory extends Component {
                                 <label htmlFor="user">User</label>
                                 <input readOnly type="text" name="user"
                                     value={this.props.auth.isAuthenticated && this.props.auth.user &&
-                                        (this.props.auth.user.data.idToken.payload["cognito:username"])}
+                                        (this.props.auth.user.idToken.payload["cognito:username"])}
                                     onChange={this.handleChange} className="form-control" id="user" placeholder="User" />
                             </div>
                         </div>
