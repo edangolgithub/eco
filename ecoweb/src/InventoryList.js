@@ -4,7 +4,8 @@ import Loader from './Loader'
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import { getallinventories, getinventorybycategory } from './Functions'
+import { getallinventories, getinventorybycategory, 
+    getallinventoriesbyuser,getallinventoriesbystore } from './Functions'
 import { columns } from './Columns'
 // import { withAuthenticator } from '@aws-amplify/ui-react';
 
@@ -24,11 +25,10 @@ export class InventoryList extends Component {
         this.onStoreSearchChange = this.onStoreSearchChange.bind(this)
         this.onUserSearch = this.onUserSearch.bind(this)
         this.onStoreSearch = this.onStoreSearch.bind(this)
-        this.onAddInventory=this.onAddInventory.bind(this)
+        this.onAddInventory = this.onAddInventory.bind(this)
 
     }
-    onAddInventory(event)
-    {
+    onAddInventory(event) {
         event.preventDefault()
         this.props.history.push("/AddInventory");
     }
@@ -50,7 +50,7 @@ export class InventoryList extends Component {
         }
 
         data.then(x => {
-        //    console.log(data)
+            //    console.log(data)
             this.setState({ inventories: x })
             this.setState({ Loading: false });
         })
@@ -59,16 +59,20 @@ export class InventoryList extends Component {
     }
     onUserSearch(e) {
         e.preventDefault();
-     //   console.log(this.state.user)
-        alert("coming soon")
+        var data = getallinventoriesbyuser(this.state.user)
+        data.then(x => {
+            this.setState({ inventories: x })
+        })
     }
     onUserSearchChange(e) {
         this.setState({ user: e.target.value })
     }
     onStoreSearch(e) {
         e.preventDefault();
-        console.log(this.state.store)
-        alert("coming soon")
+        var data = getallinventoriesbystore(this.state.store)
+        data.then(x => {
+            this.setState({ inventories: x })
+        })
     }
     onStoreSearchChange(e) {
         e.preventDefault();
@@ -79,7 +83,7 @@ export class InventoryList extends Component {
     }
 
     render() {
-        
+
         return (
             <div>
                 <div className="container-fluid">
