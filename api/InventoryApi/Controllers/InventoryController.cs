@@ -32,7 +32,7 @@ namespace InventoryApi.Controllers
 
             return data.OrderByDescending(a => a.PurchasedDate);
         }
-         [Authorize]
+        [Authorize(Policy = "ManagerAdmin")]
         [HttpPost]
         public async Task Post([FromBody] Inventory model)
         {
@@ -42,13 +42,13 @@ namespace InventoryApi.Controllers
             }
             await _repository.AddInventory(model);
         }
-        [Authorize]
+        [Authorize(Policy = "ManagerAdmin")]
         [HttpPut]
         public async Task PutAsync([FromBody] Inventory entity)
         {
             await _repository.UpdateInventory(entity);
         }
-        [Authorize]
+        [Authorize(Policy = "AdminOnly")]
         [HttpDelete("{id}")]
         public async Task DeleteAsync(string id)
         {
