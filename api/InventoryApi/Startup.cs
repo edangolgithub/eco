@@ -62,10 +62,10 @@ namespace InventoryApi
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKeyResolver = (s, securityToken, identifier, parameters) =>
                         {
-                  // Get JsonWebKeySet from AWS
-                  var json = new WebClient().DownloadString(parameters.ValidIssuer + "/.well-known/jwks.json");
-                  // Serialize the result
-                  return JsonConvert.DeserializeObject<JsonWebKeySet>(json).Keys;
+                            // Get JsonWebKeySet from AWS
+                            var json = new WebClient().DownloadString(parameters.ValidIssuer + "/.well-known/jwks.json");
+                            // Serialize the result
+                            return JsonConvert.DeserializeObject<JsonWebKeySet>(json).Keys;
                         },
                         ValidateIssuer = true,
                         ValidIssuer = $"https://cognito-idp.us-east-1.amazonaws.com/us-east-1_bFZyY3rig",
@@ -75,6 +75,17 @@ namespace InventoryApi
                         ValidAudience = AppClientId,
                     };
                 });
+            services.AddAuthorization(options =>
+       {
+           options.AddPolicy("AdminOnly", policy =>
+               policy.RequireAssertion(context =>
+                   context.User.HasClaim(c => c.Type == "cognito:groups" && c.Value == "Admin")
+                   ));
+           options.AddPolicy("ManagerAdmin", policy =>
+       policy.RequireAssertion(context =>
+           context.User.HasClaim(c => c.Type == "cognito:groups" && (c.Value == "Manager" || c.Value == "Admin"))
+           ));
+       });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
