@@ -170,7 +170,18 @@ export class AddInventory extends Component {
                 .then( ( response ) => {
                   console.log( response )
                 } )
-                .catch()
+                .catch((er)=>{
+                  console.log(er.response)
+                   //alert(er.response)
+                   if(er.response.status===403)
+                   {
+                       alert("you are not authorized (contact Admin for adding privilege)");
+                   }
+                   else
+                   {
+                       alert(er)
+                   }
+                })
 
            
             //fun.postnewaccount(this.state.data)

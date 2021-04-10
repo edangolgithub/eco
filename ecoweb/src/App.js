@@ -83,7 +83,7 @@ class App extends Component {
 
       <div className="App">
         <Menu auth={authProps} />
-        <button className="btn btn-danger" onClick={this.checkapiauth}>check apigateway restriction</button>
+        {/* <button className="btn btn-danger" onClick={this.checkapiauth}>check apigateway restriction</button> */}
         <Router>
           <Switch>
             <Route exact path="/" render={(props) => <Home {...props} auth={authProps} />} />

@@ -18,7 +18,7 @@ namespace InventoryApi.Controllers
         {
             _repository = repository;
         }
-
+       
         public async Task<IEnumerable<Inventory>> Get()
         {
             var data = await _repository.AllInventorys();
