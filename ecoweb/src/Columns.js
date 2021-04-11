@@ -1,16 +1,100 @@
-export const columns= [{
+import axios from 'axios';
+function updateRow(rowContent, row) {
+
+    let config = {
+        headers: {
+            'Authorization': 'Bearer ' + global.token
+        }
+    }
+    axios.put(
+        'https://nkys95a4t0.execute-api.us-east-1.amazonaws.com/Prod/api/inventory',
+        row,
+        config
+    )
+        .then((response) => {
+            console.log(response)
+            alert("updated")
+        })
+        .catch((er) => {
+            console.log(er.response)
+            //alert(er.response)
+            if (er.response.status === 403 || er.response.status === 401) {
+                alert("you are not authorized (contact Admin for adding privilege)");
+            }
+            else {
+                alert(er)
+            }
+        })
+}
+function deleteRow(rowContent, row) {
+
+    let config = {
+        headers: {
+            'Authorization': 'Bearer ' + global.token
+        }
+    }
+
+    axios.delete(
+        'https://nkys95a4t0.execute-api.us-east-1.amazonaws.com/Prod/api/inventory/'+ row.id,
+        
+        config
+    )
+        .then((response) => {
+            console.log(response)
+            alert("deleted")
+        })
+        .catch((er) => {
+            console.log(er.response)
+            //alert(er.response)
+            if (er.response.status === 403 || er.response.status === 401) {
+                alert("you are not authorized (contact Admin for adding privilege)");
+            }
+            else {
+                alert(er)
+            }
+        })
+}
+export const columns = [{
+    dataField: 'actions',
+    text: 'Actions',
+    isDummyField: true,
+    csvExport: false,
+    formatter: (rowContent, row) => {
+
+        return (
+            <button className="btn btn-success" onClick={() => updateRow(rowContent, row)} >Save</button>
+        )
+
+    }
+},
+{
+
+    isDummyField: true,
+
+    formatter: (rowContent, row) => {
+
+        return (
+            <button className="btn btn-success" onClick={() => deleteRow(rowContent, row)} >Delete</button>
+        )
+
+    }
+},
+{
     dataField: 'siteCategory',
     text: 'Category',
     sort: true,
     style: {
-        color: 'red',
-    }
+        color: 'gray',
+    }, editable: false
 
 },
 {
     dataField: 'site',
     text: 'Site',
-    sort: true
+    sort: true,
+    style: {
+        color: 'gray',
+    }, editable: false
 },
 {
     dataField: 'entryDate',
@@ -32,14 +116,18 @@ export const columns= [{
     sort: true,
     formatter: (cell) => {
         return "$ " + cell;
+    },
+    title: function callback(cell, row, rowIndex, colIndex) {
+        return "Double click to edit"
     }
-
 },
 {
     dataField: 'purchasedStore',
     text: 'Store',
-    sort: true
-
+    sort: true,
+    title: function callback(cell, row, rowIndex, colIndex) {
+        return "Double click to edit"
+    }
 },
 
 {
@@ -48,6 +136,9 @@ export const columns= [{
     sort: true,
     formatter: (cell) => {
         return cell.substr(0, 10);
+    },
+    title: function callback(cell, row, rowIndex, colIndex) {
+        return "Double click to edit"
     }
 
 },
@@ -55,13 +146,19 @@ export const columns= [{
 {
     dataField: 'quantityPurchased',
     text: 'Quantity',
-    sort: true
+    sort: true,
+    title: function callback(cell, row, rowIndex, colIndex) {
+        return "Double click to edit"
+    }
 
 },
 {
     dataField: 'quantityRemaining',
     text: 'Quantity Rem',
-    sort: true
+    sort: true,
+    title: function callback(cell, row, rowIndex, colIndex) {
+        return "Double click to edit"
+    }
 
 },
 {
@@ -70,6 +167,9 @@ export const columns= [{
     sort: true,
     formatter: (cell) => {
         return cell.substr(0, 10);
+    },
+    title: function callback(cell, row, rowIndex, colIndex) {
+        return "Double click to edit"
     }
 
 },
@@ -78,17 +178,26 @@ export const columns= [{
 {
     dataField: 'serial',
     text: 'Serial',
-    sort: true
+    sort: true,
+    title: function callback(cell, row, rowIndex, colIndex) {
+        return "Double click to edit"
+    }
 },
 {
     dataField: 'model',
     text: 'Model',
-    sort: true
+    sort: true,
+    title: function callback(cell, row, rowIndex, colIndex) {
+        return "Double click to edit"
+    }
 },
 {
     dataField: 'partNum',
     text: 'Part Num',
-    sort: true
+    sort: true,
+    title: function callback(cell, row, rowIndex, colIndex) {
+        return "Double click to edit"
+    }
 },
 {
     dataField: 'soldDate',
@@ -103,7 +212,7 @@ export const columns= [{
     text: 'State',
     sort: true,
     formatter: (cell) => {
-        cell = (cell === 1) ? "Active" : "Dead"
+        cell = (cell === "1") ? "Active" : "Dead"
         return cell;
     }
 
@@ -111,6 +220,10 @@ export const columns= [{
 {
     dataField: 'user',
     text: 'User',
-    sort: true
+    sort: true,
+    style: {
+        color: 'gray',
+    }, editable: false
 }
 ]
+
