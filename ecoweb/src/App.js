@@ -22,62 +22,61 @@ import { currentSession } from './components/auth/user-management';
 // import Amplify from 'aws-amplify';
 // import awsconfig from './aws-exports';
 // Amplify.configure(awsconfig);
+
 class App extends Component {
   state = {
     isAuthenticated: false,
     isAuthenticating: true,
     user: null,
-    jwt:""
+    jwt: ""
   }
-  constructor()
-  {
+  constructor() {
     super();
-    this.checkapiauth=this.checkapiauth.bind(this)
+    this.checkapiauth = this.checkapiauth.bind(this)
   }
 
   setAuthStatus = authenticated => {
     this.setState({ isAuthenticated: authenticated });
- //   console.log("called")
+    //   console.log("called")
   }
   setJwt = jwt => {
-   
+
   }
 
   setUser = user => {
     this.setState({ user: user });
     this.setState({ jwt: user.idToken.jwtToken });
-   console.log(user.idToken.jwtToken)
-   console.log(user.idToken)
+    global.token = user.idToken.jwtToken;
+    console.log(user.idToken.jwtToken)
+    console.log(user.idToken)
 
   }
-  componentDidMount()
-  {
-    var session=currentSession();
+  componentDidMount() {
+    var session = currentSession();
     console.log(session)
   }
-  checkapiauth(event)
-  {
+  checkapiauth(event) {
     event.preventDefault()
-    var data =axios.get('https://vhkrb2owtc.execute-api.us-east-1.amazonaws.com/dev' ,{
+    var data = axios.get('https://vhkrb2owtc.execute-api.us-east-1.amazonaws.com/dev', {
       headers: {
         Authorization: 'Bearer ' + this.state.jwt //the token is a variable which holds the token
       }
-     })
+    })
     data.then((response) => {
-     alert(response.data);
+      alert(response.data);
     }, (error) => {
       alert(error);
     });
-   }
+  }
   render() {
     const authProps = {
       isAuthenticated: this.state.isAuthenticated,
       user: this.state.user,
       setAuthStatus: this.setAuthStatus,
       setUser: this.setUser
-     
+
     }
- //test();
+    //test();
     //console.log(this.state.user)
     return (
 
@@ -96,8 +95,8 @@ class App extends Component {
             <Route exact path="/changepassword" render={(props) => <ChangePassword {...props} auth={authProps} />} />
             <Route exact path="/changepasswordconfirmation" render={(props) => <ChangePasswordConfirm {...props} auth={authProps} />} />
             <Route exact path="/welcome" render={(props) => <Welcome {...props} auth={authProps} />} />
-            <Route path="/inventory" render={(props) => <Inventory {...props} auth={authProps} />} />             
-            <Route path="/AddInventory" render={(props) => <AddInventory {...props} auth={authProps} />} />             
+            <Route path="/inventory" render={(props) => <Inventory {...props} auth={authProps} />} />
+            <Route path="/AddInventory" render={(props) => <AddInventory {...props} auth={authProps} />} />
 
           </Switch>
         </Router>

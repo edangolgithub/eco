@@ -3,12 +3,68 @@ import { withRouter } from 'react-router-dom';
 import Loader from './Loader'
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import cellEditFactory from 'react-bootstrap-table2-editor';
+
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import { getallinventories, getinventorybycategory, 
-    getallinventoriesbyuser,getallinventoriesbystore } from './Functions'
+import {
+    getallinventories, getinventorybycategory,
+    getallinventoriesbyuser, getallinventoriesbystore
+} from './Functions'
 import { columns } from './Columns'
 // import { withAuthenticator } from '@aws-amplify/ui-react';
+// eslint-disable-next-line
+const selectrow = {
+    mode: 'radio',
 
+    clickToEdit: true,
+    bgColor: 'pink',
+    onSelect: (row, isSelect, rowIndex, e) => {
+
+    }
+}
+
+const cellEdit = cellEditFactory({
+    mode: 'dbclick',
+    blurToSave: true,
+    afterSaveCell: assf
+
+});
+function assf(oldValue, newValue, row, column) {
+    //console.log(oldValue)
+   // console.log(newValue)
+   // console.log(row)
+   // console.log(column)
+}
+// eslint-disable-next-line
+const expandRow = {
+    renderer: (row, rowIndex) => (
+        // <div>
+        //   <p>{ `This Expand row is belong to rowKey ${row.id}` }</p>
+        //   <p>{row.price}</p>
+        //   <p>{row.site}</p>
+        // </div>
+        <span></span>
+    ),
+
+    expandByColumnOnly: false,
+    expandColumnPosition: 'right',
+    showExpandColumn: true,
+    expandColumnRenderer: ({ expanded, rowKey, expandable }) => {
+        const onclick = (event) => {
+            console.log("clicked on row ", rowKey)
+            console.log("clicked on row ", expanded)
+            console.log("clicked on row ", expandable)
+            console.log(event)
+        }
+
+        if (!expandable) {
+            return;
+        }
+        return (
+            <button type="button" onClick={onclick} className="btn btn-outline-primary">Edit</button>
+        );
+    }
+};
 
 export class InventoryList extends Component {
     constructor() {
@@ -18,7 +74,8 @@ export class InventoryList extends Component {
             user: "",
             store: "",
             inventories: [],
-            columns: columns
+            columns: columns,
+
         }
         this.onCategoryChange = this.onCategoryChange.bind(this)
         this.onUserSearchChange = this.onUserSearchChange.bind(this)
@@ -26,7 +83,13 @@ export class InventoryList extends Component {
         this.onUserSearch = this.onUserSearch.bind(this)
         this.onStoreSearch = this.onStoreSearch.bind(this)
         this.onAddInventory = this.onAddInventory.bind(this)
+        this.editrow = this.editrow.bind(this)
 
+    }
+    editrow(event) {
+        event.preventDefault();
+        console.log(this.state.rc);
+        console.log(this.state.r)
     }
     onAddInventory(event) {
         event.preventDefault()
@@ -34,6 +97,7 @@ export class InventoryList extends Component {
     }
     onCategoryChange(event) {
         event.preventDefault()
+        // console.log(this.state.columns)
         this.setState({ Loading: true });
         // console.log(event.target.value)
         var data = [];
@@ -118,15 +182,19 @@ export class InventoryList extends Component {
                     <div className="tableclass">
                         {this.state.Loading ? <Loader style={{ textAlign: "center" }} /> :
                             <BootstrapTable
+                                bootstrap4
                                 stiped
                                 hover
+                                condensed
                                 keyField='id'
                                 data={this.state.inventories}
                                 columns={this.state.columns}
                                 pagination={paginationFactory()}
                                 version='4'
                                 body
-
+                                cellEdit={cellEdit}
+                                classes="mb-5 table-fit"
+                                title="hover me"
                             />
                         }
                     </div>
