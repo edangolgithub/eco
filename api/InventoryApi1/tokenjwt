@@ -1,0 +1,2 @@
+https://cognito-idp.us-east-1.amazonaws.com/us-east-1_bFZyY3rig/.well-known/jwks.json
+e.g.: https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_AbCdEf/.well-known/jwks.json
