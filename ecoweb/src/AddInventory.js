@@ -163,12 +163,13 @@ export class AddInventory extends Component {
                 }
               }
               axios.post( 
-                  'https://nkys95a4t0.execute-api.us-east-1.amazonaws.com/Prod/api/inventory',
+                  'https://5w9ovuk4sh.execute-api.us-east-1.amazonaws.com/api/inventory',
                   d,
                   config
                 )
                 .then( ( response ) => {
                   console.log( response )
+                  alert("saved")
                 } )
                 .catch((er)=>{
                   console.log(er.response)
@@ -218,13 +219,14 @@ export class AddInventory extends Component {
                                 <input type="date" name="purchasedDate" onChange={this.handleChange} className="form-control" id="purchasedDate" placeholder="purchasedDate" />
                             </div>
                             <div className="form-group d-flex">
+                                <label htmlFor="quantity">quantity</label>
+                                <input type="text" name="quantity" onChange={this.handleChange} className="form-control" id="quantity" placeholder="quantity" />
+                            </div>
+                            <div className="form-group d-flex">
                                 <label htmlFor="usedDate">usedDate</label>
                                 <input type="date" name="usedDate" onChange={this.handleChange} className="form-control" id="usedDate" placeholder="usedDate" />
                             </div>
-                            <div className="form-group d-flex">
-                                <label htmlFor="quantityRemaining">quantityRemaining</label>
-                                <input type="text" name="quantityRemaining" onChange={this.handleChange} className="form-control" id="quantityRemaining" placeholder="quantityRemaining" />
-                            </div>
+                            
                             <div className="form-group d-flex">
                                 <label htmlFor="accountname">Site</label>
                                 <select name="site" onChange={this.handleChange} className="custom-select custom-select-sm">
@@ -261,16 +263,17 @@ export class AddInventory extends Component {
                                 <input type="date" name="disposedDate" onChange={this.handleChange} className="form-control" id="disposedDate" placeholder="disposedDate" />
                             </div>
                             <div className="form-group d-flex">
+                                <label htmlFor="quantityRemaining">quantityRemaining</label>
+                                <input type="text" name="quantityRemaining" onChange={this.handleChange} className="form-control" id="quantityRemaining" placeholder="quantityRemaining" />
+                            </div>
+                            <div className="form-group d-flex">
                                 <label htmlFor="state">state</label>
                                 <select name="state" onChange={this.handleChange} className="custom-select custom-select-sm">
                                     <option value="1">Active</option>
                                     <option value="0">Non Active</option>
                                 </select>
                             </div>
-                            <div className="form-group d-flex">
-                                <label htmlFor="quantity">quantity</label>
-                                <input type="text" name="quantity" onChange={this.handleChange} className="form-control" id="quantity" placeholder="quantity" />
-                            </div>
+                            
                             <div className="form-group d-flex">
                                 <label htmlFor="user">User</label>
                                 <input readOnly type="text" name="user"
