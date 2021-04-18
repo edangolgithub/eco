@@ -1,13 +1,25 @@
 import axios from 'axios';
+//import { useHistory } from "react-router-dom";
 function updateRow(rowContent, row) {
+    //console.log(row)
 
+    row.price = parseFloat(row.price)
+    row.quantity = parseInt(row.quantity)
+    row.quantityPurchased = parseInt(row.quantityPurchased);
+    row.quantityRemaining = parseInt(row.quantityRemaining)
+    row.state=parseInt(row.state)
+    if(row.state!==1)
+    {
+        row.state=0;
+    }
+    console.log(row)
     let config = {
         headers: {
             'Authorization': 'Bearer ' + global.token
         }
     }
     axios.put(
-        'https://nkys95a4t0.execute-api.us-east-1.amazonaws.com/Prod/api/inventory',
+        'https://5w9ovuk4sh.execute-api.us-east-1.amazonaws.com/api/inventory',
         row,
         config
     )
@@ -28,31 +40,34 @@ function updateRow(rowContent, row) {
 }
 function deleteRow(rowContent, row) {
 
-    let config = {
-        headers: {
-            'Authorization': 'Bearer ' + global.token
-        }
-    }
+//     let config = {
+//         headers: {
+//             'Authorization': 'Bearer ' + global.token
+//         }
+//     }
+// console.log(this)
+// console.log(this.props)
+    // axios.delete(
+    //     'https://5w9ovuk4sh.execute-api.us-east-1.amazonaws.com/api/inventory/' + row.id,
+    //     config
+    // )
+    //     .then((response) => {
+    //         console.log(response)
+    //         alert("deleted")
+    //     })
+    //     .catch((er) => {
+    //         console.log(er.response)
+    //         //alert(er.response)
+    //         if (er.response.status === 403 || er.response.status === 401) {
+    //             alert("you are not authorized (contact Admin for adding privilege)");
+    //         }
+    //         else {
+    //             alert(er)
+    //         }
+    //     })
+   // const history = useHistory();
 
-    axios.delete(
-        'https://nkys95a4t0.execute-api.us-east-1.amazonaws.com/Prod/api/inventory/'+ row.id,
-        
-        config
-    )
-        .then((response) => {
-            console.log(response)
-            alert("deleted")
-        })
-        .catch((er) => {
-            console.log(er.response)
-            //alert(er.response)
-            if (er.response.status === 403 || er.response.status === 401) {
-                alert("you are not authorized (contact Admin for adding privilege)");
-            }
-            else {
-                alert(er)
-            }
-        })
+  //  history.push("/");
 }
 export const columns = [{
     dataField: 'actions',
@@ -62,7 +77,7 @@ export const columns = [{
     formatter: (rowContent, row) => {
 
         return (
-            <button className="btn btn-success" onClick={() => updateRow(rowContent, row)} >Save</button>
+            <button  className="btn btn-success" onClick={() => updateRow(rowContent, row)} >Save</button>
         )
 
     }
@@ -74,8 +89,10 @@ export const columns = [{
     formatter: (rowContent, row) => {
 
         return (
+            <span>
+          
             <button className="btn btn-success" onClick={() => deleteRow(rowContent, row)} >Delete</button>
-        )
+            </span>  )
 
     }
 },
@@ -144,7 +161,7 @@ export const columns = [{
 },
 
 {
-    dataField: 'quantityPurchased',
+    dataField: 'quantity',
     text: 'Quantity',
     sort: true,
     title: function callback(cell, row, rowIndex, colIndex) {
@@ -212,7 +229,7 @@ export const columns = [{
     text: 'State',
     sort: true,
     formatter: (cell) => {
-        cell = (cell === "1") ? "Active" : "Dead"
+        cell = (parseInt(cell) === 1) ? "Active" : "Dead"
         return cell;
     }
 

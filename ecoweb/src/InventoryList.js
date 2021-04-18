@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
+import axios from 'axios'
 import Loader from './Loader'
+import Circle from './CircleLoader'
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory from 'react-bootstrap-table2-editor';
@@ -10,7 +12,7 @@ import {
     getallinventories, getinventorybycategory,
     getallinventoriesbyuser, getallinventoriesbystore
 } from './Functions'
-import { columns } from './Columns'
+//import { columns } from './Columns'
 // import { withAuthenticator } from '@aws-amplify/ui-react';
 // eslint-disable-next-line
 const selectrow = {
@@ -26,14 +28,17 @@ const selectrow = {
 const cellEdit = cellEditFactory({
     mode: 'dbclick',
     blurToSave: true,
+    onStartEdit: (row, column, rowIndex, columnIndex) => {
+        //console.log(row)
+    },
     afterSaveCell: assf
 
 });
 function assf(oldValue, newValue, row, column) {
     //console.log(oldValue)
-   // console.log(newValue)
-   // console.log(row)
-   // console.log(column)
+    // console.log(newValue)
+    // console.log(row)
+    // console.log(column)
 }
 // eslint-disable-next-line
 const expandRow = {
@@ -61,20 +66,282 @@ const expandRow = {
             return;
         }
         return (
-            <button type="button" onClick={onclick} className="btn btn-outline-primary">Edit</button>
+            <button type="button" onClick={onclick} className="btn btn-outline-primary">
+                {    "Edit"
+                }
+            </button>
         );
     }
 };
 
 export class InventoryList extends Component {
+
+    updateRow(rowContent, row) {
+        //console.log(row)
+        this.setState({ circling: true })
+        row.price = parseFloat(row.price)
+        row.quantity = parseInt(row.quantity)
+        row.quantityPurchased = parseInt(row.quantityPurchased);
+        row.quantityRemaining = parseInt(row.quantityRemaining)
+        row.state = parseInt(row.state)
+        if (row.state !== 1) {
+            row.state = 0;
+        }
+        console.log(row)
+        let config = {
+            headers: {
+                'Authorization': 'Bearer ' + global.token
+            }
+        }
+        axios.put(
+            'https://5w9ovuk4sh.execute-api.us-east-1.amazonaws.com/api/inventory',
+            row,
+            config
+        )
+            .then((response) => {
+                console.log(response)
+                alert("updated")
+                this.setState({ circling: false })
+            })
+            .catch((er) => {
+                this.setState({ circling: false })
+                console.log(er.response)
+                //alert(er.response)
+                if (er.response.status === 403 || er.response.status === 401) {
+                    alert("you are not authorized (contact Admin for adding privilege)");
+                }
+                else {
+                    alert(er)
+                }
+            })
+       
+    }
+    deleteRow(rowContent, row) {
+        this.setState({ circling: true })
+        let config = {
+            headers: {
+                'Authorization': 'Bearer ' + global.token
+            }
+        }
+        console.log(row)
+
+        axios.delete(
+            'https://5w9ovuk4sh.execute-api.us-east-1.amazonaws.com/api/inventory/' + row.id,
+            config
+        )
+            .then((response) => {
+                console.log(response)
+
+                const data = getinventorybycategory(row.site)
+                data.then(x => {
+                    //    console.log(data)
+                    this.setState({ inventories: x })
+                   
+                    this.setState({ circling: false })
+                    alert("deleted")
+                })
+            })
+            .catch((er) => {
+                this.setState({ circling: false })
+                console.log(er.response)
+                //alert(er.response)
+                if (er.response.status === 403 || er.response.status === 401) {
+                    alert("you are not authorized (contact Admin for adding privilege)");
+                }
+                else {
+                    alert(er)
+                }
+            })
+        
+
+    }
+
+
+
     constructor() {
         super();
         this.state = {
             Loading: false,
+            circling: false,
             user: "",
             store: "",
             inventories: [],
-            columns: columns,
+            columns: [{
+                dataField: 'actions',
+                text: 'Actions',
+                isDummyField: true,
+                csvExport: false,
+                formatter: (rowContent, row) => {
+
+                    return (
+                        <button className="btn btn-success" onClick={() => this.updateRow(rowContent, row)} >
+                            {this.state.circling ? <Circle /> : "Save"}
+                        </button>
+                    )
+
+                }
+            },
+            {
+
+                isDummyField: true,
+
+                formatter: (rowContent, row) => {
+
+                    return (
+                        <span>
+
+                            <button className="btn btn-success" onClick={() => this.deleteRow(rowContent, row)} > {this.state.circling ? <Circle /> : "Delete"}</button>
+                        </span>)
+
+                }
+            },
+            {
+                dataField: 'siteCategory',
+                text: 'Category',
+                sort: true,
+                style: {
+                    color: 'gray',
+                }, editable: false
+
+            },
+            {
+                dataField: 'site',
+                text: 'Site',
+                sort: true,
+                style: {
+                    color: 'gray',
+                }, editable: false
+            },
+            {
+                dataField: 'entryDate',
+                text: 'Entry Date',
+                sort: true,
+                formatter: (cell) => {
+                    return cell.substr(0, 10);
+                }
+                // headerStyle: { backgroundColor: 'green' , width:"500px"},
+                // style: {
+
+                //     width:"500px"
+                //   },
+
+            },
+            {
+                dataField: 'price',
+                text: 'Price',
+                sort: true,
+                formatter: (cell) => {
+                    return "$ " + cell;
+                },
+                title: function callback(cell, row, rowIndex, colIndex) {
+                    return "Double click to edit"
+                }
+            },
+            {
+                dataField: 'purchasedStore',
+                text: 'Store',
+                sort: true,
+                title: function callback(cell, row, rowIndex, colIndex) {
+                    return "Double click to edit"
+                }
+            },
+
+            {
+                dataField: 'purchasedDate',
+                text: 'Purchased Date',
+                sort: true,
+                formatter: (cell) => {
+                    return cell.substr(0, 10);
+                },
+                title: function callback(cell, row, rowIndex, colIndex) {
+                    return "Double click to edit"
+                }
+
+            },
+
+            {
+                dataField: 'quantity',
+                text: 'Quantity',
+                sort: true,
+                title: function callback(cell, row, rowIndex, colIndex) {
+                    return "Double click to edit"
+                }
+
+            },
+            {
+                dataField: 'quantityRemaining',
+                text: 'Quantity Rem',
+                sort: true,
+                title: function callback(cell, row, rowIndex, colIndex) {
+                    return "Double click to edit"
+                }
+
+            },
+            {
+                dataField: 'usedDate',
+                text: 'Used Date',
+                sort: true,
+                formatter: (cell) => {
+                    return cell.substr(0, 10);
+                },
+                title: function callback(cell, row, rowIndex, colIndex) {
+                    return "Double click to edit"
+                }
+
+            },
+
+
+            {
+                dataField: 'serial',
+                text: 'Serial',
+                sort: true,
+                title: function callback(cell, row, rowIndex, colIndex) {
+                    return "Double click to edit"
+                }
+            },
+            {
+                dataField: 'model',
+                text: 'Model',
+                sort: true,
+                title: function callback(cell, row, rowIndex, colIndex) {
+                    return "Double click to edit"
+                }
+            },
+            {
+                dataField: 'partNum',
+                text: 'Part Num',
+                sort: true,
+                title: function callback(cell, row, rowIndex, colIndex) {
+                    return "Double click to edit"
+                }
+            },
+            {
+                dataField: 'soldDate',
+                text: 'Sold Date',
+                sort: true,
+                formatter: (cell) => {
+                    return cell.substr(0, 10);
+                }
+            },
+            {
+                dataField: 'state',
+                text: 'State',
+                sort: true,
+                formatter: (cell) => {
+                    cell = (parseInt(cell) === 1) ? "Active" : "Dead"
+                    return cell;
+                }
+
+            },
+            {
+                dataField: 'user',
+                text: 'User',
+                sort: true,
+                style: {
+                    color: 'gray',
+                }, editable: false
+            }
+            ]
 
         }
         this.onCategoryChange = this.onCategoryChange.bind(this)
@@ -84,7 +351,11 @@ export class InventoryList extends Component {
         this.onStoreSearch = this.onStoreSearch.bind(this)
         this.onAddInventory = this.onAddInventory.bind(this)
         this.editrow = this.editrow.bind(this)
-
+        this.updateRow = this.updateRow.bind(this)
+        this.deleteRow = this.deleteRow.bind(this)
+    }
+    xyz() {
+        alert("sdfds")
     }
     editrow(event) {
         event.preventDefault();
@@ -143,7 +414,7 @@ export class InventoryList extends Component {
         this.setState({ store: e.target.value })
     }
     componentDidMount() {
-
+       // this.setState({ circling: true })
     }
 
     render() {
