@@ -17,7 +17,7 @@ import Footer from './components/Footer';
 import AddInventory from './AddInventory';
 import axios from 'axios'
 
-import { currentSession } from './components/auth/user-management';
+//import { currentSession } from './components/auth/user-management';
 //import {test} from './components/auth/Usersdk'
 // import Amplify from 'aws-amplify';
 // import awsconfig from './aws-exports';
@@ -47,13 +47,14 @@ class App extends Component {
     this.setState({ user: user });
     this.setState({ jwt: user.idToken.jwtToken });
     global.token = user.idToken.jwtToken;
-    console.log(user.idToken.jwtToken)
-    console.log(user.idToken)
+    //console.log(user.idToken.jwtToken)
+    //console.log(user.idToken)
+    //console.log(user.accessToken.payload["cognito:groups"])
 
   }
   componentDidMount() {
-    var session = currentSession();
-    console.log(session)
+    //var session = currentSession();
+    //console.log(session)
   }
   checkapiauth(event) {
     event.preventDefault()

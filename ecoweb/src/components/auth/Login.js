@@ -42,7 +42,7 @@ class LogIn extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-    console.log("hello")
+    //console.log("hello")
     this.setState({ loading: true })
     // Form validation
     this.clearErrorState();
@@ -71,7 +71,7 @@ class LogIn extends Component {
 
 
 
-      console.log(user);
+      //console.log(user);
       //xyz();
 
       if (!user) {

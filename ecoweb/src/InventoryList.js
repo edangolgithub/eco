@@ -12,6 +12,7 @@ import {
     getallinventories, getinventorybycategory,
     getallinventoriesbyuser, getallinventoriesbystore
 } from './Functions'
+//import { ThemeConsumer } from 'react-bootstrap/esm/ThemeProvider';
 //import { columns } from './Columns'
 // import { withAuthenticator } from '@aws-amplify/ui-react';
 // eslint-disable-next-line
@@ -56,10 +57,10 @@ const expandRow = {
     showExpandColumn: true,
     expandColumnRenderer: ({ expanded, rowKey, expandable }) => {
         const onclick = (event) => {
-            console.log("clicked on row ", rowKey)
-            console.log("clicked on row ", expanded)
-            console.log("clicked on row ", expandable)
-            console.log(event)
+            // console.log("clicked on row ", rowKey)
+            // console.log("clicked on row ", expanded)
+            // console.log("clicked on row ", expandable)
+            // console.log(event)
         }
 
         if (!expandable) {
@@ -114,7 +115,7 @@ export class InventoryList extends Component {
                     alert(er)
                 }
             })
-       
+
     }
     deleteRow(rowContent, row) {
         this.setState({ circling: true })
@@ -136,7 +137,7 @@ export class InventoryList extends Component {
                 data.then(x => {
                     //    console.log(data)
                     this.setState({ inventories: x })
-                   
+
                     this.setState({ circling: false })
                     alert("deleted")
                 })
@@ -152,15 +153,16 @@ export class InventoryList extends Component {
                     alert(er)
                 }
             })
-        
+
 
     }
 
 
-
+    pricehide = true;
     constructor() {
         super();
         this.state = {
+            pricehidden: true,
             Loading: false,
             circling: false,
             user: "",
@@ -235,7 +237,8 @@ export class InventoryList extends Component {
                 },
                 title: function callback(cell, row, rowIndex, colIndex) {
                     return "Double click to edit"
-                }
+                },
+                hidden: true,
             },
             {
                 dataField: 'purchasedStore',
@@ -414,7 +417,20 @@ export class InventoryList extends Component {
         this.setState({ store: e.target.value })
     }
     componentDidMount() {
-       // this.setState({ circling: true })
+        this.pricehide = true;
+        if (this.props.auth.user) {
+            var role = this.props.auth.user.accessToken.payload["cognito:groups"];
+            role.forEach(element => {
+                if (element.includes("Admin") || element.includes("Manager")) {
+                    this.state.columns.forEach(e=>{
+                        if(e.dataField === 'price')
+                        {
+                            e.hidden=false;
+                        }
+                    })
+                }
+            });
+        }
     }
 
     render() {
