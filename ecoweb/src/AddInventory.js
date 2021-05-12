@@ -172,7 +172,7 @@ export class AddInventory extends Component {
       return;
     }
     console.log(d);
-    return;
+   
     //  alert("coming soon")
 
     if (validateForm(this.state.errors)) {
