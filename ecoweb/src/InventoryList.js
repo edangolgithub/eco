@@ -219,7 +219,13 @@ export class InventoryList extends Component {
                 text: 'Entry Date',
                 sort: true,
                 formatter: (cell) => {
+                     if(cell)
+                     {
                     return cell.substr(0, 10);
+                    }
+                    else{
+                        return "-"
+                    }
                 }
                 // headerStyle: { backgroundColor: 'green' , width:"500px"},
                 // style: {
@@ -254,7 +260,13 @@ export class InventoryList extends Component {
                 text: 'Purchased Date',
                 sort: true,
                 formatter: (cell) => {
+                     if(cell)
+                     {
                     return cell.substr(0, 10);
+                    }
+                    else{
+                        return "-"
+                    }
                 },
                 title: function callback(cell, row, rowIndex, colIndex) {
                     return "Double click to edit"
@@ -285,7 +297,13 @@ export class InventoryList extends Component {
                 text: 'Used Date',
                 sort: true,
                 formatter: (cell) => {
+                     if(cell)
+                     {
                     return cell.substr(0, 10);
+                    }
+                    else{
+                        return "-"
+                    }
                 },
                 title: function callback(cell, row, rowIndex, colIndex) {
                     return "Double click to edit"
@@ -323,7 +341,13 @@ export class InventoryList extends Component {
                 text: 'Sold Date',
                 sort: true,
                 formatter: (cell) => {
+                    if(cell)
+                    {
                     return cell.substr(0, 10);
+                    }
+                    else{
+                        return "-"
+                    }
                 }
             },
             {
@@ -331,7 +355,7 @@ export class InventoryList extends Component {
                 text: 'State',
                 sort: true,
                 formatter: (cell) => {
-                    cell = (parseInt(cell) === 1) ? "Active" : "Dead"
+                  
                     return cell;
                 }
 
