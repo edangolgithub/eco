@@ -8,7 +8,7 @@ export class Home extends Component {
 
                 <pre>
 
-                    <img src="http://ecolawnlandscaping.com/wp-content/uploads/2016/07/logo.png" alt="logo" height="300px" />
+                    <img src="/logo.png" alt="logo" height="300px" />
                 
                 
                 </pre>
