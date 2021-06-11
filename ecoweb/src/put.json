@@ -1,0 +1,12 @@
+{
+    "fun":"put",
+    "TableName" : "cart",
+    "Item": {
+       "userId": "1",
+       "number": 4,
+       "BoolAttribute": true,
+       "ListAttribute": [1, "two", false],
+       "MapAttribute": { "foo": "bar","rr":"ss"},
+       "NullAttribute": null
+    }
+}

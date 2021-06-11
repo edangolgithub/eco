@@ -151,6 +151,7 @@ export class InventoryList extends Component {
                 }
                 else {
                     alert(er)
+                    this.setState({ circling: false })
                 }
             })
 
