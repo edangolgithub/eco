@@ -94,6 +94,7 @@ export class AddInventory extends Component {
     var sc = "";
     switch (fname) {
       case "type":
+      console.log(fvalue);
         if (fvalue.length < 1) {
           errors.type = "invalid type";
         }
@@ -150,7 +151,7 @@ export class AddInventory extends Component {
           } else {
             delete errors.usedDate;
           }
-          d.usedDate = date;
+         
         }
         // console.log(errors);
         break;
@@ -162,7 +163,7 @@ export class AddInventory extends Component {
           } else {
             delete errors.usedDate;
           }
-          d.purchasedDate = date;
+         
         }
         //console.log(errors);
         break;
@@ -210,7 +211,7 @@ export class AddInventory extends Component {
     //console.log(d);
 
     //  alert("coming soon")
-
+console.log(d);
     if (!this.state.errors.length) {
       // console.log("er bel");
       // console.log(this.state.errors);
