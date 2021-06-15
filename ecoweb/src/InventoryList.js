@@ -118,7 +118,7 @@ export class InventoryList extends Component {
 
     }
     deleteRow(rowContent, row) {
-        this.setState({ circling: true })
+      //  this.setState({ circling: true })
         let config = {
             headers: {
                 'Authorization': 'Bearer ' + global.token
@@ -138,12 +138,12 @@ export class InventoryList extends Component {
                     //    console.log(data)
                     this.setState({ inventories: x })
 
-                    this.setState({ circling: false })
+                   // this.setState({ circling: false })
                     alert("deleted")
                 })
             })
             .catch((er) => {
-                this.setState({ circling: false })
+               // this.setState({ circling: false })
                 console.log(er.response)
                 //alert(er.response)
                 if (er.response.status === 403 || er.response.status === 401) {
@@ -151,7 +151,7 @@ export class InventoryList extends Component {
                 }
                 else {
                     alert(er)
-                    this.setState({ circling: false })
+                   // this.setState({ circling: false })
                 }
             })
 

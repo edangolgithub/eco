@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 // import { Auth } from '@aws-amplify/auth';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 
+
 class MainMenu extends Component {
    
         state = {

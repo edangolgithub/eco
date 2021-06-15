@@ -28,3 +28,9 @@
     margin-right: 20px;
     margin-left: 20px;
 }
+.error
+{
+    font-size: smaller;
+    font-weight: bolder;
+    color: red;
+}

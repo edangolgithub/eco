@@ -85,7 +85,7 @@ class LogIn extends Component {
 
       }
       else {
-       
+        sessionStorage.setItem("user",JSON.stringify(user));
         this.props.auth.setAuthStatus(true);
         this.props.auth.setUser(user);
         this.props.history.push("/");
