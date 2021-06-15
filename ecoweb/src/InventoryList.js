@@ -199,6 +199,15 @@ export class InventoryList extends Component {
                 }
             },
             {
+                dataField: 'type',
+                text: 'Type',
+                sort: true,
+                style: {
+                    color: 'gray',
+                }
+
+            },
+            {
                 dataField: 'siteCategory',
                 text: 'Category',
                 sort: true,
