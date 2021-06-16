@@ -14,7 +14,11 @@ import ChangePassword from "./components/auth/ChangePassword";
 import ChangePasswordConfirm from "./components/auth/ChangePasswordConfirm";
 import Welcome from "./components/auth/Welcome";
 import Footer from "./components/Footer";
+import BasicTable from "./components/BasicTable";
+import MultipleActions from "./components/material/MultipleActions";
 import AddInventory from "./AddInventory";
+import EditInventory from "./EditInventory";
+import MainMenu from './Menu.js'
 import axios from "axios";
 
 //import { currentSession } from './components/auth/user-management';
@@ -44,6 +48,8 @@ class App extends Component {
   setUser = (user) => {
     //  this.setState({ user: user });
     var us = sessionStorage.getItem("user");
+    if(us)
+    {
     var use = JSON.parse(us);
     console.log(use);
     this.setState({ user: use });
@@ -52,6 +58,7 @@ class App extends Component {
     //console.log(user.idToken.jwtToken)
     //console.log(user.idToken)
     //console.log(user.accessToken.payload["cognito:groups"])
+    }
   };
 
   componentDidMount() {
@@ -165,6 +172,22 @@ class App extends Component {
             <Route
               path="/AddInventory"
               render={(props) => <AddInventory {...props} auth={authProps} />}
+            />
+            <Route
+              path="/BasicTable"
+              render={(props) => <BasicTable {...props} auth={authProps} />}
+            />
+             <Route
+              path="/MultipleActions"
+              render={(props) => <MultipleActions {...props} auth={authProps} />}
+            />
+             <Route
+              path="/EditInventory"
+              render={(props) => <EditInventory {...props} auth={authProps} />}
+            />
+             <Route
+              path="/MainMenu"
+              render={(props) => <MainMenu {...props} auth={authProps} />}
             />
           </Switch>
         </Router>

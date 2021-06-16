@@ -6,7 +6,10 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 
 
 class MainMenu extends Component {
-   
+   constructor(props) {
+       super(props)
+       this.handleLogOut=this.handleLogOut.bind(this)
+   }
         state = {
             user: []
         }
@@ -22,6 +25,15 @@ class MainMenu extends Component {
     //             console.log(err)}
     //             );
     // }
+
+    handleLogOut(e)
+    {
+       
+        sessionStorage.removeItem("user")
+        this.props.auth.setAuthStatus(false);
+        this.props.auth.setUser(null);
+        
+    }
     render() {
         return (
             <div>
@@ -34,10 +46,11 @@ class MainMenu extends Component {
                         <Nav className="mr-auto">
                             <Nav.Link href="#/">Home</Nav.Link>
                             <Nav.Link href="#inventory">Inventory</Nav.Link>
+                            <Nav.Link href="#MultipleActions">Inventory2</Nav.Link>
                             <Nav.Link href="#AddInventory">Add Inventory</Nav.Link>
                             <NavDropdown title="More" id="collasible-nav-dropdown">
                                 <NavDropdown.Item href="http://ecolawnlandscaping.com/">Eco lawn</NavDropdown.Item>
-                                <NavDropdown.Item href="#email"></NavDropdown.Item>
+                                <NavDropdown.Item href="#MultipleActions">table</NavDropdown.Item>
                                 <NavDropdown.Item href="#N"></NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="#action/3.4"></NavDropdown.Item>
