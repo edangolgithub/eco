@@ -14,6 +14,7 @@ import ChangePassword from "./components/auth/ChangePassword";
 import ChangePasswordConfirm from "./components/auth/ChangePasswordConfirm";
 import Welcome from "./components/auth/Welcome";
 import Footer from "./components/Footer";
+import BasicTable from "./components/BasicTable";
 import AddInventory from "./AddInventory";
 import axios from "axios";
 
@@ -165,6 +166,10 @@ class App extends Component {
             <Route
               path="/AddInventory"
               render={(props) => <AddInventory {...props} auth={authProps} />}
+            />
+            <Route
+              path="/BasicTable"
+              render={(props) => <BasicTable {...props} auth={authProps} />}
             />
           </Switch>
         </Router>
