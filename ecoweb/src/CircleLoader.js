@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import CircleLoader from "react-spinners/CircleLoader";
 const override = css`
   display: block;

@@ -185,7 +185,7 @@ class LogIn extends Component {
               </div>
             }
 
-            <button onClick={this.checkapiauth}>click</button>
+            {/* <button onClick={this.checkapiauth}>click</button> */}
           </div>
         </form>
       </div>
