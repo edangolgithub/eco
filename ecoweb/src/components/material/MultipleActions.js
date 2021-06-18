@@ -6,6 +6,7 @@ import {
   getallinventoriesbyuser,
   getallinventoriesbystore,
   deleteinventory,
+  isAdminorManager,
 } from "../../Functions";
 import Loader from "../../Loader";
 //import Circle from "../../CircleLoader";
@@ -22,7 +23,6 @@ export class MultipleActions extends Component {
         { title: "Type", field: "type" },
         { title: "Serial", field: "serial" },
         { title: "Model", field: "model" },
-        { title: "Price", field: "price" },
         { title: "quantity", field: "quantity", type: "numeric" },
         { title: "Purchased Store", field: "purchasedStore" },
         { title: "Date Purchased", field: "purchasedDate", type: "date" },
@@ -31,7 +31,19 @@ export class MultipleActions extends Component {
         { title: "Used Date", field: "usedDate", type: "date" },
         { title: "PartNum", field: "partNum" },
         { title: "Sold Date", field: "soldDate", type: "date" },
-        { title: "State", field: "state" },
+        { title: "Price", field: "price" },
+        {
+          title: "State",
+          field: "state",
+          type: "numeric",
+          render: (rowData) => {
+            if (rowData.state === 1) {
+              return "Active";
+            } else {
+              return "Not Active";
+            }
+          },
+        },
       ],
     };
     this.onCategoryChange = this.onCategoryChange.bind(this);
@@ -60,8 +72,12 @@ export class MultipleActions extends Component {
     }
 
     data.then((x) => {
-      //    console.log(data)
-      this.setState({ inventories: x });
+      if (isAdminorManager() === false) {
+        let xx = x.map(({ price, ...remainingAttrs }) => remainingAttrs);
+        this.setState({ inventories: xx });
+      } else {
+        this.setState({ inventories: x });
+      }
       this.setState({ Loading: false });
     });
   }
@@ -178,7 +194,7 @@ export class MultipleActions extends Component {
                   icon: "edit",
                   tooltip: "Edit",
                   onClick: (event, rowData) => {
-                   // console.log(rowData);
+                    // console.log(rowData);
                     this.props.history.push({
                       pathname: "/EditInventory",
 
@@ -190,20 +206,18 @@ export class MultipleActions extends Component {
                 {
                   icon: "delete",
                   tooltip: "Delete User",
-                  onClick:async (event, rowData) => {
+                  onClick: async (event, rowData) => {
                     var res = window.confirm(
                       "You want to delete " + rowData.type
                     );
                     if (res) {
                       event.target.disabled = true;
-                     // console.log(rowData);
-                     const data= await deleteinventory(rowData.id);
-                     if(data)
-                     {
+                      // console.log(rowData);
+                      const data = await deleteinventory(rowData.id);
+                      if (data) {
                         alert("deleted");
                         this.props.history.push("/");
-                     }
-                      
+                      }
                     }
                   },
                 },
@@ -214,7 +228,7 @@ export class MultipleActions extends Component {
                   backgroundColor: "#5cb85c",
                   color: "#FFF",
                 },
-                pageSize: 20,
+                pageSize: 10,
               }}
             />
           )}

@@ -48,7 +48,6 @@ export const deleteinventory = async (id) => {
     )
     .then((response) => {
       console.log(response);
-     
     })
     .catch((er) => {
       console.log(er.response);
@@ -58,5 +57,27 @@ export const deleteinventory = async (id) => {
         alert(er);
       }
     });
-    return await data;
+  return await data;
+};
+
+export const isAdminorManager = () => {
+  var isadmin = false;
+  var us = sessionStorage.getItem("user");
+  if (us) {
+    let usdata = JSON.parse(us);
+    var role = usdata.accessToken.payload["cognito:groups"];
+    // role.forEach((element) => {
+    //   if (element.includes("Admin") || element.includes("Manager")) {
+    //    isadmin=true;
+    //    break;
+    //   }
+    // });
+    for (const element of role) {
+      if (element.includes("Admin") || element.includes("Manager")) {
+        isadmin = true;
+        break;
+      }
+    }
+  }
+  return isadmin;
 };
